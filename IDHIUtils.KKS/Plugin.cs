@@ -1,13 +1,16 @@
-﻿using BepInEx;
+﻿//
+// KKS entry point
+//
+using BepInEx;
 using KKAPI;
 
 
 namespace IDHIUtils
 {
     [BepInDependency(KoikatuAPI.GUID, KoikatuAPI.VersionConst)]
-    [BepInPlugin(PInfo.GUID, PInfo.PluginName, PInfo.Version)]
+    [BepInPlugin(GUID, PluginName, Version)]
     [BepInProcess(KoikatuAPI.GameProcessName)]
-    public partial class Utilities
+    public partial class Utilities : BaseUnityPlugin
     {
     }
 }

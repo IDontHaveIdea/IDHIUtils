@@ -9,13 +9,14 @@ namespace IDHIUtils
     /// <summary>
     /// Show logs when enabled
     /// </summary>
-    static public class Log
-    {
-        static private ManualLogSource _logSource;
-        static private bool _enabled = false;
-        static private bool _debugToConsole = false;
 
-        static public bool Enabled
+    public class Logg
+    {
+        internal ManualLogSource _logSource;
+        internal bool _enabled = false;
+        internal bool _debugToConsole = false;
+
+        public bool Enabled
         {
             get
             {
@@ -28,7 +29,7 @@ namespace IDHIUtils
             }
         }
 
-        static public bool DebugToConsole
+        public bool DebugToConsole
         {
             get
             {
@@ -40,7 +41,7 @@ namespace IDHIUtils
             }
         }
 
-        static public ManualLogSource LogSource
+        public ManualLogSource LogSource
         {
             get
             {
@@ -48,16 +49,22 @@ namespace IDHIUtils
             }
             set
             {
-                _logSource = value;
+                if (_logSource == null)
+                {
+                    _logSource = value;
+                }
             }
         }
 
-        static public void SetLogSource(ManualLogSource logSource)
+        public void SetLogSource(ManualLogSource logSource)
         {
-            _logSource = logSource;
+            if (_logSource == null)
+            {
+                _logSource = logSource;
+            }
         }
 
-        static public void Info(object data)
+        public void Info(object data)
         {
             if (_enabled)
             {
@@ -65,7 +72,7 @@ namespace IDHIUtils
             }
         }
 
-        static public void Debug(object data)
+        public void Debug(object data)
         {
             if (_enabled)
             {
@@ -80,7 +87,7 @@ namespace IDHIUtils
             }
         }
 
-        static public void Error(object data)
+        public void Error(object data)
         {
             if (_enabled)
             {
@@ -88,7 +95,7 @@ namespace IDHIUtils
             }
         }
 
-        static public void Fatal(object data)
+        public void Fatal(object data)
         {
             if (_enabled)
             {
@@ -96,7 +103,7 @@ namespace IDHIUtils
             }
         }
 
-        static public void Message(object data)
+        public void Message(object data)
         {
             if (_enabled)
             {
@@ -104,7 +111,7 @@ namespace IDHIUtils
             }
         }
 
-        static public void Warning(object data)
+        public void Warning(object data)
         {
             if (_enabled)
             {
@@ -117,7 +124,7 @@ namespace IDHIUtils
         /// </summary>
         /// <param name="level"></param>
         /// <param name="data"></param>
-        static public void Level(LogLevel level, object data)
+        public void Level(LogLevel level, object data)
         {
             _logSource.Log(level, data);
         }

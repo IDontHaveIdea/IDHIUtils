@@ -13,7 +13,7 @@ namespace IDHIUtils
     ///
     public partial class Utilities
     {
-        static public BaseUnityPlugin GetPluginInstance(string guID)
+        /*static public BaseUnityPlugin GetPluginInstance(string guID)
         {
             BepInEx.Bootstrap.Chainloader.PluginInfos.TryGetValue(guID, out var PInfo);
             return PInfo?.Instance;
@@ -44,7 +44,7 @@ namespace IDHIUtils
             }
 
             return Instance.Info.Metadata.Version.CompareTo(new Version(version)) > -1;
-        }
+        }*/
 
         static public string Translate(string name)
         {
@@ -54,6 +54,16 @@ namespace IDHIUtils
             }
 
             return tmp;
+        }
+
+        static public string TranslateName(string animationName, bool original = false)
+        {
+            var tmp = Translate(animationName);
+            if ((tmp == animationName) || !original)
+            {
+                return tmp;
+            }
+            return $"{tmp} ({animationName})";
         }
 
         /// <summary>
@@ -137,7 +147,5 @@ namespace IDHIUtils
             }
             return quotes ? "\" { " + tmp + " }\"" : "{ " + tmp + " }";
         }
-
-
     }
 }

@@ -9,7 +9,7 @@
   <PropertyGroup>
     <!--<ProjectGuid>060b48f0-c862-40f6-b8d5-e0337fa7dc16</ProjectGuid>-->
 	<ProjectGuid>d51d3ede-ab18-47fa-a1e6-6b55dafc232c</ProjectGuid>
-    <RootNamespace>IDHIPlugins</RootNamespace>
+    <RootNamespace>IDHIUtils</RootNamespace>
     <AssemblyName>KK_$(MSBuildProjectName.Replace(".KK", ""))</AssemblyName>
     <Nullable>warnings</Nullable>
   </PropertyGroup>

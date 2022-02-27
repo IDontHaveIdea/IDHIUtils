@@ -3,11 +3,16 @@
 
 namespace IDHIUtils
 {
+    /// <summary>
+    /// Scene helpers
+    /// </summary>
     static public class MScenes
     {
         //
         // TODO: KK versions
         // For KK properties change they are not static.
+        // Replace with KKAPI ScreenApi missing GetActiveScene() functionality but it looks that
+        // KK works like KKS for this one replace with maps instead of names.
         //
 
         /// <summary>
@@ -17,6 +22,15 @@ namespace IDHIUtils
         static public string GetActiveScene()
         {
             return $"{Manager.Scene.ActiveScene.name}";
+        }
+
+        static public Manager.Scene.Data GetData()
+        {
+#if KKS
+            return Manager.Scene.NowData;
+#else
+            return Manager.Scene.Instance.baseScene;
+#endif
         }
 
         /// <summary>

@@ -1,19 +1,27 @@
-﻿using BepInEx;
-
+﻿//
+// Utilities
+//
 
 namespace IDHIUtils
 {
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    ///
-    ///
-    /// </remarks>
-    public partial class Utilities : BaseUnityPlugin
+/// <summary>
+/// </summary>
+/// <remarks>
+///
+///
+/// </remarks>
+    public partial class Utilities
     {
+        internal Logg _log = new();
+
         private void Awake()
         {
-            Log.SetLogSource(base.Logger);
+
+            _log.LogSource = base.Logger;
+            _log.Enabled = true;
+            
+            // Initialize lookup table
+            SvgColor.Init();
         }
     }
 }
