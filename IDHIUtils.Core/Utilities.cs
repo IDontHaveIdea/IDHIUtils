@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 using BepInEx;
 
@@ -75,7 +76,7 @@ namespace IDHIUtils
         /// <returns></returns>
         static public string CategoryList(List<HSceneProc.Category> categories, bool names = false, bool quotes = true)
         {
-            var tmp = "";
+            var tmp = new StringBuilder();
             var first = true;
 
             foreach (var c in categories)
@@ -84,27 +85,29 @@ namespace IDHIUtils
                 {
                     if (names)
                     {
-                        tmp += (PositionCategory)c.category;
+                        tmp.Append((PositionCategory)c.category);
                     }
                     else
                     {
-                        tmp += c.category.ToString();
+                        tmp.Append(c.category);
                     }
+                    tmp.Append($"=[{c.fileMove}]");
                     first = false;
                 }
                 else
                 {
                     if (names)
                     {
-                        tmp += ", " + (PositionCategory)c.category;
+                        tmp.Append($", {(PositionCategory)c.category}=[{c.fileMove}]");
                     }
                     else
                     {
-                        tmp += ", " + c.category.ToString();
+                        tmp.Append($", {c.category}=[{c.fileMove}]");
                     }
                 }
             }
             return quotes ? "\" { " + tmp + " }\"" : "{ " + tmp + " }";
+            //var t = $"\" {{ {tmp.ToString()} }}\"";
         }
 
         /// <summary>
