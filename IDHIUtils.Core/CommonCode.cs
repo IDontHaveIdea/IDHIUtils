@@ -8,7 +8,7 @@ namespace IDHIUtils
 {
     internal class CC
     {
-        static private int _language = -1;
+        /*static private int _language = -1;
 
         /// <summary>
         /// Safely get the language as configured in setup.xml if it exists.
@@ -101,6 +101,6 @@ namespace IDHIUtils
                 UserData.Path, "chara/male/");
             static readonly internal string CoordinateCardPath = Path.Combine(
                 UserData.Path, "coordinate/");
-        }
+        }*/
     }
 }
