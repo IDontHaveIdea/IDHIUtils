@@ -81,6 +81,7 @@ namespace IDHIUtils
 
             foreach (var c in categories)
             {
+                var strTmp = c.fileMove == string.Empty ? "" : $"=[{c.fileMove}]";
                 if (first)
                 {
                     if (names)
@@ -91,18 +92,19 @@ namespace IDHIUtils
                     {
                         tmp.Append(c.category);
                     }
-                    tmp.Append($"=[{c.fileMove}]");
+                    tmp.Append(strTmp);
                     first = false;
                 }
                 else
                 {
                     if (names)
                     {
-                        tmp.Append($", {(PositionCategory)c.category}=[{c.fileMove}]");
+
+                        tmp.Append($", {(PositionCategory)c.category}{strTmp}");
                     }
                     else
                     {
-                        tmp.Append($", {c.category}=[{c.fileMove}]");
+                        tmp.Append($", {c.category}{strTmp}");
                     }
                 }
             }
