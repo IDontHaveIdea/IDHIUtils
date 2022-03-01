@@ -14,7 +14,7 @@ namespace IDHIUtils
     ///
     public partial class Utilities
     {
-        /*static public BaseUnityPlugin GetPluginInstance(string guID)
+        static public BaseUnityPlugin GetPluginInstance(string guID)
         {
             BepInEx.Bootstrap.Chainloader.PluginInfos.TryGetValue(guID, out var PInfo);
             return PInfo?.Instance;
@@ -45,7 +45,7 @@ namespace IDHIUtils
             }
 
             return Instance.Info.Metadata.Version.CompareTo(new Version(version)) > -1;
-        }*/
+        }
 
         static public string Translate(string name)
         {
@@ -152,5 +152,41 @@ namespace IDHIUtils
             }
             return quotes ? "\" { " + tmp + " }\"" : "{ " + tmp + " }";
         }
+
+        static public string CategoryList(int[] categories, bool names = false, bool quotes = true)
+        {
+            var tmp = "";
+            var first = true;
+
+            foreach (var c in categories)
+            {
+                if (first)
+                {
+                    if (names)
+                    {
+                        tmp += (PositionCategory)c;
+                    }
+                    else
+                    {
+                        tmp += c.ToString();
+                    }
+                    first = false;
+                }
+                else
+                {
+                    if (names)
+                    {
+                        tmp += ", " + (PositionCategory)c;
+                    }
+                    else
+                    {
+                        tmp += ", " + c.ToString();
+                    }
+                }
+            }
+            return quotes ? "\" { " + tmp + " }\"" : "{ " + tmp + " }";
+        }
+
+
     }
 }

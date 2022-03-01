@@ -199,8 +199,11 @@ namespace IDHIUtils
         /// </summary>
         static public void Init()
         {
-            _lut = new Texture2D(1, 1, TextureFormat.ARGB32, false);
-            _lut.LoadImage(ResourceUtils.GetEmbeddedResource("lookuptexture.png"));
+            if (_lut == null)
+            {
+                _lut = new Texture2D(1, 1, TextureFormat.ARGB32, false);
+                _lut.LoadImage(ResourceUtils.GetEmbeddedResource("lookuptexture.png"));
+            }
         }
 
         /// <summary>
