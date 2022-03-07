@@ -2,6 +2,8 @@
 // Utilities
 //
 
+using UnityEngine.SceneManagement;
+
 namespace IDHIUtils
 {
 /// <summary>
@@ -12,16 +14,21 @@ namespace IDHIUtils
 /// </remarks>
     public partial class Utilities
     {
-        internal Logg _log = new();
+        static internal Logg _Log = new();
 
         private void Awake()
         {
-
-            _log.LogSource = base.Logger;
-            _log.Enabled = true;
+            _Log.LogSource = base.Logger;
+            _Log.Enabled = true;
             
             // Initialize lookup table
             SvgColor.Init();
         }
+        private void Start()
+        {
+            HProcMonitor.Init();
+            SceneManager.sceneLoaded += HProcMonitor.SceneLoaded;
+        }
+
     }
 }

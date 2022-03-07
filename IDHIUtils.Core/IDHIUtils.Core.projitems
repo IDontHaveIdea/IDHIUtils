@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ButtonInterfaces.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommonCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HProcMonitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MScenes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin.cs" />
