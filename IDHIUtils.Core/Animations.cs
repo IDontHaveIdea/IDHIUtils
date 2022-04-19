@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 using HarmonyLib;
 
@@ -8,7 +6,12 @@ namespace IDHIUtils
 {
     public partial class Utilities
     {
-        static public int CountAnimations(List<HSceneProc.AnimationListInfo>[] lstAnimInfo)
+        /// <summary>
+        /// Count all animations for every category
+        /// </summary>
+        /// <param name="lstAnimInfo"></param>
+        /// <returns></returns>
+        public static int CountAnimations(List<HSceneProc.AnimationListInfo>[] lstAnimInfo)
         {
             var count = 0;
 
@@ -26,7 +29,7 @@ namespace IDHIUtils
         /// <param name="mode"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        static public int GetExpTaii(object hsceneProc, int mode, int id)
+        public static int GetExpTaii(object hsceneProc, int mode, int id)
         {
             var hsceneTraverse = Traverse.Create(hsceneProc);
             var dicExpAddTaii = hsceneTraverse
