@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+using HarmonyLib;
+
 using BepInEx;
 
 using KKAPI.Utilities;
@@ -14,40 +16,83 @@ namespace IDHIUtils
     ///
     public partial class Utilities
     {
-        static public BaseUnityPlugin GetPluginInstance(string guID)
-        {
-            BepInEx.Bootstrap.Chainloader.PluginInfos.TryGetValue(guID, out var PInfo);
-            return PInfo?.Instance;
-        }
 
-        static public Version GetPluginVersion(string guID)
+        public class PInfo
         {
-            BepInEx.Bootstrap.Chainloader.PluginInfos.TryGetValue(guID, out var PInfo);
-            return PInfo?.Metadata?.Version;
-        }
+            private PluginInfo _pluginInfo;
+            private string _pluginGUID;
+            private Traverse _traverse;
 
-        static public bool PluginVersionCompare(string guID, string version)
-        {
-            BepInEx.Bootstrap.Chainloader.PluginInfos.TryGetValue(guID, out var PInfo);
-            if (PInfo == null)
+            public BaseUnityPlugin Instance => _pluginInfo?.Instance;
+
+            public Version Version => _pluginInfo?.Metadata?.Version;
+
+            public Traverse Traverse
             {
-                return false;
+                get
+                {
+                    if(_traverse == null)
+                    {
+                        if (Instance != null)
+                        {
+                            _traverse = Traverse.Create(Instance);
+                        }
+                    }
+                    return _traverse; ;
+                }
             }
 
-            return PInfo.Metadata.Version.CompareTo(new Version(version)) > -1;
-        }
+            public string GUID {
+                get
+                {
+                    // return _pluginGUID != null ? _pluginGUID : null;
+                    return _pluginGUID ?? null;
+                }
 
-        static public bool PluginVersionCompare(BaseUnityPlugin Instance, string version)
-        {
-            if (Instance == null)
-            {
-                return false;
+                set
+                {
+                    if (_pluginGUID != value)
+                    {
+                        _pluginGUID = value;
+                        _traverse = null;
+                        GetPluginInfo();
+                    }
+                }
             }
 
-            return Instance.Info.Metadata.Version.CompareTo(new Version(version)) > -1;
+            public PInfo()
+            {
+                _pluginGUID = "";
+                _pluginInfo = null;
+                _traverse = null;
+            }
+
+            public PInfo(string gID)
+            {
+                _pluginGUID = gID;
+                _traverse = null;
+                GetPluginInfo();
+            }
+
+            private void GetPluginInfo()
+            {
+                BepInEx.Bootstrap.Chainloader.PluginInfos.TryGetValue(_pluginGUID, out var PInfo);
+                _pluginInfo = PInfo;
+            }
+
+            public bool VersionAtLeast(string version)
+            {
+                if(_pluginInfo == null)
+                {
+                    return false;
+                }
+
+                return _pluginInfo.Metadata.Version.CompareTo(new Version(version)) > -1;
+            }
+
         }
 
-        static public string Translate(string name)
+        public static string Translate(string name)
         {
             if (!TranslationHelper.TryTranslate(name, out var tmp))
             {
@@ -57,7 +102,7 @@ namespace IDHIUtils
             return tmp;
         }
 
-        static public string TranslateName(string animationName, bool original = false)
+        public static string TranslateName(string animationName, bool original = false)
         {
             var tmp = Translate(animationName);
             if ((tmp == animationName) || !original)
@@ -74,7 +119,7 @@ namespace IDHIUtils
         /// <param name="names"></param>
         /// <param name="quotes"></param>
         /// <returns></returns>
-        static public string CategoryList(List<HSceneProc.Category> categories, bool names = false, bool quotes = true)
+        public static string CategoryList(List<HSceneProc.Category> categories, bool names = false, bool quotes = true)
         {
             var tmp = new StringBuilder();
             var first = true;
@@ -109,7 +154,6 @@ namespace IDHIUtils
                 }
             }
             return quotes ? "\" { " + tmp + " }\"" : "{ " + tmp + " }";
-            //var t = $"\" {{ {tmp.ToString()} }}\"";
         }
 
         /// <summary>
@@ -119,7 +163,7 @@ namespace IDHIUtils
         /// <param name="names"></param>
         /// <param name="quotes"></param>
         /// <returns></returns>
-        static public string CategoryList(List<int> categories, bool names = false, bool quotes = true)
+        public static string CategoryList(List<int> categories, bool names = false, bool quotes = true)
         {
             var tmp = "";
             var first = true;
@@ -153,7 +197,7 @@ namespace IDHIUtils
             return quotes ? "\" { " + tmp + " }\"" : "{ " + tmp + " }";
         }
 
-        static public string CategoryList(int[] categories, bool names = false, bool quotes = true)
+        public static string CategoryList(int[] categories, bool names = false, bool quotes = true)
         {
             var tmp = "";
             var first = true;
@@ -187,6 +231,60 @@ namespace IDHIUtils
             return quotes ? "\" { " + tmp + " }\"" : "{ " + tmp + " }";
         }
 
+        public static readonly Dictionary<SaveData.Heroine.HExperienceKind, string> HExperienceKind = new()
+        {
+            { SaveData.Heroine.HExperienceKind.初めて, "First Time" },
+            { SaveData.Heroine.HExperienceKind.不慣れ, "Inexperience" },
+            { SaveData.Heroine.HExperienceKind.慣れ, "Experience" },
+            { SaveData.Heroine.HExperienceKind.淫乱, "Horny" }
+        };
 
+        public static readonly Dictionary<int, string> Personality = new()
+        { 
+            { 0, "Sexy" },
+            { 1, "Ojousama" },
+            { 2, "Snobby" },
+            { 3, "Kouhai" },
+            { 4, "Mysterious" },
+            { 5, "Weirdo" },
+            { 6, "Yamato Nadeshiko" },
+            { 7, "Tomboy" },
+            { 8, "Pure" },
+            { 9, "Simple" },
+            { 10, "Delusional" },
+            { 11, "Motherly" },
+            { 12, "Big Sisterly" },
+            { 13, "Gyaru" },
+            { 14, "Delinquent" },
+            { 15, "Wild" },
+            { 16, "Wannabe" },
+            { 17, "Reluctant" },
+            { 18, "Jinxed" },
+            { 19, "Bookish" },
+            { 20, "Timid" },
+            { 21, "Typical Schoolgirl" },
+            { 22, "Trendy" },
+            { 23, "Otaku" },
+            { 24, "Yandere" },
+            { 25, "Lazy" },
+            { 26, "Quiet" },
+            { 27, "Stubborn" },
+            { 28, "Old-Fashioned" },
+            { 29, "Humble" },
+            { 30, "Friendly" },
+            { 31, "Willful" },
+            { 32, "Honest" },
+            { 33, "Glamorous" },
+            { 34, "Returnee" },
+            { 35, "Slangy" },
+            { 36, "Sadistic" },
+            { 37, "Emotionless" },
+            { 38, "Perfectionist" },
+            { 39, "Island Girl" },
+            { 40, "Noble" },
+            { 41, "Bokukko"},
+            { 42, "Naive"},
+            { 43, "High Spirited"}
+        };
     }
 }
