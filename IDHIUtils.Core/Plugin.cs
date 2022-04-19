@@ -6,24 +6,24 @@ using UnityEngine.SceneManagement;
 
 namespace IDHIUtils
 {
-/// <summary>
-/// </summary>
-/// <remarks>
-///
-///
-/// </remarks>
+    /// <summary>
+    /// Initializations needed for the utilities
+    ///     SvgColor - initialize lookup table
+    ///     HProcMonitor - initialize hooks and register to ScreenManager event sceneLoaded
+    /// </summary>
     public partial class Utilities
     {
-        static internal Logg _Log = new();
+        internal static Logg _Log = new();
 
         private void Awake()
         {
             _Log.LogSource = base.Logger;
+#if DEBUG
             _Log.Enabled = true;
-            
-            // Initialize lookup table
+#endif
             SvgColor.Init();
         }
+
         private void Start()
         {
             HProcMonitor.Init();
