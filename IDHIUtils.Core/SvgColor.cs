@@ -14,14 +14,12 @@ namespace IDHIUtils
     /// </summary>
     public class SvgColor
     {
-        static private Texture2D _lut;
+        private static Texture2D _lut;
 
         internal bool _useLut = false;
         internal byte _alpha = 255;
 
 #pragma warning disable IDE1006 // Naming Styles
-#pragma warning disable IDE0025 // Use block body for properties
-
         public Color black =>                Lut(new Color32(  0,   0,   0, _alpha));
         public Color navy =>                 Lut(new Color32(  0,   0, 128, _alpha));
         public Color darkblue =>             Lut(new Color32(  0,   0, 139, _alpha));
@@ -168,19 +166,24 @@ namespace IDHIUtils
         public Color lightyellow =>          Lut(new Color32(255, 255, 224, _alpha));
         public Color ivory =>                Lut(new Color32(255, 255, 240, _alpha));
         public Color white =>                Lut(new Color32(255, 255, 255, _alpha));
-
-#pragma warning restore IDE0025 // Use block body for properties
 #pragma warning restore IDE1006 // Naming Styles
 
-		public byte Alpha 
+        public byte Alpha 
         { 
             get 
             { 
                 return _alpha; 
             } 
             set 
-            { 
-                _alpha = value; 
+            {
+                if((0 <= value) && (value <= 255))
+                {
+                    _alpha = value;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException(nameof(value));
+                }
             } 
         }
 
@@ -197,7 +200,7 @@ namespace IDHIUtils
         /// <summary>
         /// Initialize lookup table called in Awake()
         /// </summary>
-        static public void Init()
+        public static void Init()
         {
             if (_lut == null)
             {
@@ -210,7 +213,7 @@ namespace IDHIUtils
         /// Code and lut texture from koikoi.happy.nu.color_adjuster
         /// Stolen again from ManlyMarco
         /// </summary>
-        static public Color LookupColor(Color color)
+        public static Color LookupColor(Color color)
         {
             var num = color.b * 63f;
             var num2 = Mathf.Floor(Mathf.Floor(num) / 8f);
