@@ -8,13 +8,14 @@
 
   <PropertyGroup>
     <!--<ProjectGuid>495b2e98-fa8c-4126-9783-32f3c25b3c27</ProjectGuid>-->
-	<ProjectGuid>ef740de8-f721-4a12-abb0-676c95e5e66c</ProjectGuid>
+    <ProjectGuid>ef740de8-f721-4a12-abb0-676c95e5e66c</ProjectGuid>
     <RootNamespace>IDHIUtils</RootNamespace>
     <AssemblyName>KKS_$(MSBuildProjectName.Replace(".KKS", ""))</AssemblyName>
     <Nullable>warnings</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ABMX.KKSABMX" Version="4.4.6" />
     <PackageReference Include="BepInEx.Analyzers" Version="1.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
