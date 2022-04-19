@@ -16,7 +16,7 @@ using IDHIUtils;
 #endregion Assembly attributes
 
 //
-// Login ID: 0001
+// Login ID: UTIL0001
 //
 
 
@@ -25,7 +25,7 @@ namespace IDHIUtils
     public partial class Utilities
     {
         public const string GUID = "com.ihavenoidea.idhiutils";
-        public const string Version = "0.0.1.1";
+        public const string Version = "1.0.0.0";
 #if DEBUG
         public const string PluginDisplayName = "IDHI Utilities (Debug)";
 #else
