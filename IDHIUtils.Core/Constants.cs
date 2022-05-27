@@ -49,4 +49,12 @@ namespace IDHIUtils
         Butt = 4,
         Nipples = 5
     }
+
+    public enum KindHoushi
+    {
+        Hand = 0,
+        Mouth = 1,
+        Breasts = 2,
+        none = -1
+    }
 }
