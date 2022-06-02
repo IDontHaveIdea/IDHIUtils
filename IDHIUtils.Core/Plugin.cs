@@ -2,6 +2,9 @@
 // Utilities
 //
 
+using System;
+
+using KKAPI;
 using UnityEngine.SceneManagement;
 
 namespace IDHIUtils
@@ -22,6 +25,7 @@ namespace IDHIUtils
             _Log.Enabled = true;
 #endif
             SvgColor.Init();
+            KoikatuAPI.Quitting += OnGameExit;
         }
 
         private void Start()
@@ -29,6 +33,19 @@ namespace IDHIUtils
             HProcMonitor.Init();
             SceneManager.sceneLoaded += HProcMonitor.SceneLoaded;
         }
+
+        /// <summary>
+        /// Game exit event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        internal static void OnGameExit(object sender, EventArgs e)
+        {
+            _Log.Info($"[OnGameExit] Exiting game.");
+            // Close special log file.
+            Logg.Close();
+        }
+
 
     }
 }
