@@ -44,4 +44,52 @@ namespace IDHIUtils
         Butt = 4,
         Nipples = 5
     }
+
+
+    public enum HairKind
+    {
+        back,
+        front,
+        side,
+        option
+    }
+
+    public enum ClothesKind
+    {
+        top,
+        bot,
+        bra,
+        shorts,
+        gloves,
+        panst,
+        socks,
+        shoes_inner,
+        shoes_outer
+    }
+
+    public enum ClothesSubKind
+    {
+        partsA,
+        partsB,
+        partsC
+    }
+
+    public enum CoordinateType
+    {
+        Plain,
+        Swim,
+        Pajamas,
+        Bathing
+    }
+
+    public enum SiruParts
+    {
+        SiruKao,
+        SiruFrontUp,
+        SiruFrontDown,
+        SiruBackUp,
+        SiruBackDown
+    }
+
+
 }
