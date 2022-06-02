@@ -1,6 +1,11 @@
 ﻿//
 // Log class with runtime enable/disable display of logs
 //
+
+using System;
+using System.Diagnostics;
+using System.IO;
+
 using BepInEx.Logging;
 
 
@@ -15,6 +20,8 @@ namespace IDHIUtils
         internal ManualLogSource _logSource;
         internal bool _enabled = false;
         internal bool _debugToConsole = false;
+        internal static bool _specialLogFile = false;
+        internal static StreamWriter _writer;
 
         public bool Enabled
         {
@@ -26,6 +33,22 @@ namespace IDHIUtils
             set
             {
                 _enabled = value;
+            }
+        }
+
+        public static bool SpecialLogFile
+        {
+            get
+            {
+                return _specialLogFile;
+            }
+            set
+            {
+                if (value)
+                {
+                    _specialLogFile = true;
+                    SetupLogFile();
+                }
             }
         }
 
@@ -127,6 +150,47 @@ namespace IDHIUtils
         public void Level(LogLevel level, object data)
         {
             _logSource.Log(level, data);
+        }
+
+        public static void Special(object data)
+        {
+            if (_specialLogFile)
+            {
+                // Get call stack
+                var stackTrace = new StackTrace();
+
+                // Get calling method name
+                var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
+
+                if (_writer.BaseStream != null)
+                {
+                    _writer.WriteLine($"Called by:[{calllingMethod}] {data}");
+                    _writer.Flush();
+                }
+            }
+        }
+
+        public static void Close()
+        {
+            if (_writer != null)
+            {
+                _writer.Close();
+            }
+        }
+
+        private static void SetupLogFile()
+        {
+            if (_writer == null)
+            {
+                var logFilePath = Path.Combine(UserData.Path, "Logs");
+                var fileName = $"{logFilePath}/Special.log";
+                var logFileInfo = new FileInfo(fileName);
+
+
+                logFileInfo.Directory.Create();
+                _writer = new StreamWriter(fileName);
+                _specialLogFile = true;
+            }
         }
     }
 }
