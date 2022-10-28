@@ -12,8 +12,14 @@ using static HSceneProc;
 
 namespace IDHIUtils
 {
+    /// <summary>
+    /// HSceneProcTraverse - Class to access HSceneProc fields and methods
+    /// through reflection using HarmonyLib Traverse. The class does not
+    /// contains definitions for everything. Is updated as needed.
+    /// </summary>
     public class HSceneProcTraverse
     {
+        #region private fields
         private static Vector3 initVector = new(9999, 9999, 9999);
         private Traverse _traverse;
         private object _instance;
@@ -23,8 +29,6 @@ namespace IDHIUtils
         private List<int> _categorys;
         private List<int> _useCategorys;
         private RuntimeAnimatorController _changeRac;
-        private Traverse _CheckExpAddTaii;
-        private Traverse _CheckShopAdd;
         private Dictionary<int, Dictionary<int, int>> _dicExpAddTaii;
         private HFlag _flags;
         private HitCollisionEnableCtrl _hitcollisionFemale;
@@ -42,7 +46,40 @@ namespace IDHIUtils
         private ActionMap _map;
         private Vector3 _nowHpointDataPos = initVector;
         private string _nowHpointData;
+        private YureCtrl _yure;
+        private YureCtrl _yure1;
+        private YureCtrl _yureMale;
+        private HandCtrl _hand;
+        private HandCtrl _hand1;
+        private ItemObject _item;
+        private SiruPasteCtrl _siru;
+        private SiruPasteCtrl _siru1;
+        private ParentObjectCtrl _parentObjectFemale;
+        private ParentObjectCtrl _parentObjectFemale1;
+        private ParentObjectCtrl _parentObjectMale;
+        private HSeCtrl _se1;
+        private DynamicBoneReferenceCtrl _dynamicCtrl;
+        private DynamicBoneReferenceCtrl _dynamicCtrl1;
+        private bool _bChangePoint;
+        private bool _actYukaTaii;
+        private bool _changeTaii;
+        private HSprite _sprite;
+        private ShuffleRand[] _voicePlayShuffle;
+        private Traverse _CheckExpAddTaii;
+        private Traverse _CheckShopAdd;
+        private Traverse _SetLocalPosition;
+        private Traverse _SetBoneOffset;
+        private Traverse _CalcParameter;
+#if KKS
+        private ObiCtrl _ctrlObi;
+        private HMotionEyeNeckFemale _eyeneckFemale;
+        private HMotionEyeNeckFemale _eyeneckFemale1;
+        private HMotionEyeNeckMale _eyeneckMale;
+        private HMotionEyeNeckMale _eyeneckMale1;
+#endif
+        #endregion
 
+        #region Properties
 #pragma warning disable IDE1006 // Naming Styles
         public AnimatorLayerCtrl alCtrl
         {
@@ -105,7 +142,7 @@ namespace IDHIUtils
                 return _changeRac;
             }
         }
-        public Traverse CheckExpAddTaii
+        public Traverse TCheckExpAddTaii
         {
             get
             {
@@ -118,7 +155,7 @@ namespace IDHIUtils
                 return _CheckExpAddTaii;
             }
         }
-        public Traverse CheckShopAdd
+        public Traverse TCheckShopAdd
         {
             get
             {
@@ -126,9 +163,49 @@ namespace IDHIUtils
                 {
                     _CheckShopAdd = Traverse
                         .Method("CheckShopAdd",
-                    new Type[] { typeof(HashSet<int>), typeof(int), typeof(int) });
+                            new Type[] { typeof(HashSet<int>), typeof(int), typeof(int) });
                 }
                 return _CheckShopAdd;
+            }
+        }
+        public Traverse TSetLocalPosition
+        {
+            get
+            {
+                if (_SetLocalPosition == null)
+                {
+                    _SetLocalPosition = Traverse
+                        .Method("SetLocalPosition",
+                            new Type[] { typeof(AnimationListInfo) });
+
+                }
+                return _SetLocalPosition;
+            }
+        }
+        public Traverse TSetBoneOffset
+        {
+            get
+            {
+                if (_SetBoneOffset == null)
+                {
+                    _SetBoneOffset = Traverse
+                        .Method("SetBoneOffset",
+                            new Type[] { typeof(AnimationListInfo), typeof(AnimationListInfo) });
+                }
+                return _SetBoneOffset;
+            }
+        }
+        public Traverse TCalcParameter
+        {
+            get
+            {
+                if (_CalcParameter == null)
+                {
+                    _CalcParameter = Traverse
+                        .Method("CalcParameter",
+                            new Type[] { typeof(HScene.AddParameter) });
+                }
+                return _CalcParameter;
             }
         }
         public Dictionary<int, Dictionary<int, int>> dicExpAddTaii
@@ -338,6 +415,288 @@ namespace IDHIUtils
                 return _nowHpointData;
             }
         }
+        public YureCtrl yure
+        {
+            get
+            {
+                if (_yure == null)
+                {
+                    _yure = Traverse
+                        .Field<YureCtrl>("yure").Value;
+                }
+                return _yure;
+            }
+        }
+        public YureCtrl yure1
+        {
+            get
+            {
+                if (_yure1 == null)
+                {
+                    _yure1 = Traverse
+                        .Field<YureCtrl>("yure1").Value;
+                }
+                return _yure1;
+            }
+        }
+        public YureCtrl yureMale
+        {
+            get
+            {
+                if (_yureMale == null)
+                {
+                    _yureMale = Traverse
+                        .Field<YureCtrl>("yureMale").Value;
+                }
+                return _yureMale;
+            }
+        }
+        public HandCtrl hand
+        {
+            get
+            {
+                if (_hand == null)
+                {
+                    _hand = Traverse
+                    .Field<HandCtrl>("hand").Value;
+                }
+                return _hand;
+            }
+        }
+        public HandCtrl hand1
+        {
+            get
+            {
+                if (_hand1 == null)
+                {
+                    _hand1 = Traverse
+                    .Field<HandCtrl>("hand1").Value;
+                }
+                return _hand1;
+            }
+        }
+        public ItemObject item
+        {
+            get
+            {
+                if (_item == null)
+                {
+                    _item = Traverse
+                        .Field<ItemObject>("item").Value;
+                }
+                return _item;
+            }
+        }
+        public SiruPasteCtrl siru
+        {
+            get
+            {
+                if (_siru == null)
+                {
+                    _siru = Traverse
+                        .Field<SiruPasteCtrl>("siru").Value;
+                }
+                return _siru;
+            }
+        }
+        public SiruPasteCtrl siru1
+        {
+            get
+            {
+                if (_siru1 == null)
+                {
+                    _siru1 = Traverse
+                        .Field<SiruPasteCtrl>("siru1").Value;
+                }
+                return _siru1;
+            }
+        }
+        public ParentObjectCtrl parentObjectFemale
+        {
+            get
+            {
+                if (_parentObjectFemale == null)
+                {
+                    _parentObjectFemale = Traverse
+                        .Field<ParentObjectCtrl>("parentObjectFemale").Value;
+                }
+                return _parentObjectFemale;
+            }
+        }
+        public ParentObjectCtrl parentObjectFemale1
+        {
+            get
+            {
+                if (_parentObjectFemale1 == null)
+                {
+                    _parentObjectFemale1 = Traverse
+                        .Field<ParentObjectCtrl>("parentObjectFemale1").Value;
+                }
+                return _parentObjectFemale1;
+            }
+        }
+        public ParentObjectCtrl parentObjectMale
+        {
+            get
+            {
+                if (_parentObjectMale == null)
+                {
+                    _parentObjectMale = Traverse
+                        .Field<ParentObjectCtrl>("parentObjectMale").Value;
+                }
+                return _parentObjectMale;
+            }
+        }
+        public HSeCtrl se1
+        {
+            get
+            {
+                if (_se1 == null)
+                {
+                    _se1 = Traverse
+                        .Field<HSeCtrl>("se1").Value;
+                }
+                return _se1;
+            }
+        }
+        public DynamicBoneReferenceCtrl dynamicCtrl
+        {
+            get
+            {
+                if (_dynamicCtrl == null)
+                {
+                    _dynamicCtrl = Traverse
+                        .Field<DynamicBoneReferenceCtrl>("dynamicCtrl").Value;
+                }
+                return _dynamicCtrl;
+            }
+        }
+        public DynamicBoneReferenceCtrl dynamicCtrl1
+        {
+            get
+            {
+                if (_dynamicCtrl1 == null)
+                {
+                    _dynamicCtrl1 = Traverse
+                        .Field<DynamicBoneReferenceCtrl>("dynamicCtrl1").Value;
+                }
+                return _dynamicCtrl1;
+            }
+        }
+        public bool bChangePoint
+        {
+            get
+            {
+                _bChangePoint = Traverse
+                    .Field<bool>("bChangePoint").Value;
+                return _bChangePoint;
+            }
+        }
+        public bool actYukaTaii
+        {
+            get
+            {
+                _actYukaTaii = Traverse
+                    .Field<bool>("actYukaTaii").Value;
+                return _actYukaTaii;
+            }
+        }
+        public bool changeTaii
+        {
+            get
+            {
+                _changeTaii = Traverse
+                    .Field<bool>("changeTaii").Value;
+                return _changeTaii;
+            }
+        }
+        public HSprite sprite
+        {
+            get
+            {
+                if (_sprite == null)
+                {
+                    _sprite = Traverse
+                        .Field<HSprite>("sprite").Value;
+                }
+                return _sprite;
+            }
+        }
+        public ShuffleRand[] voicePlayShuffle
+        {
+            get
+            {
+                if (_voicePlayShuffle == null)
+                {
+                    _voicePlayShuffle = Traverse
+                        .Field<ShuffleRand[]>("voicePlayShuffle").Value;
+                }
+                return _voicePlayShuffle;
+            }
+        }
+#if KKS
+        public ObiCtrl ctrlObi
+        {
+            get
+            {
+                if (_ctrlObi == null)
+                {
+                    _ctrlObi = Traverse
+                    .Field<ObiCtrl>("ctrlObi").Value;
+                }
+                return _ctrlObi;
+            }
+        }
+        public HMotionEyeNeckFemale eyeneckFemale
+        {
+            get
+            {
+                if (_eyeneckFemale == null)
+                {
+                    _eyeneckFemale = Traverse
+                        .Field<HMotionEyeNeckFemale>("eyeneckFemale").Value;
+                }
+                return _eyeneckFemale;
+            }
+        }
+        public HMotionEyeNeckFemale eyeneckFemale1
+        {
+            get
+            {
+                if (_eyeneckFemale1 == null)
+                {
+                    _eyeneckFemale1 = Traverse
+                        .Field<HMotionEyeNeckFemale>("eyeneckFemale1").Value;
+                }
+                return _eyeneckFemale;
+            }
+        }
+        public HMotionEyeNeckMale eyeneckMale
+        {
+            get
+            {
+                if (_eyeneckMale == null)
+                {
+                    _eyeneckMale = Traverse
+                        .Field<HMotionEyeNeckMale>("eyeneckMale").Value;
+                }
+                return _eyeneckMale;
+            }
+        }
+        public HMotionEyeNeckMale eyeneckMale1
+        {
+            get
+            {
+                if (_eyeneckMale1 == null)
+                {
+                    _eyeneckMale1 = Traverse
+                        .Field<HMotionEyeNeckMale>("eyeneckMale1").Value;
+                }
+                return _eyeneckMale1;
+            }
+        }
+
+#endif
 #pragma warning restore IDE1006 // Naming Styles
 
         public object Instance => _instance;
@@ -355,6 +714,7 @@ namespace IDHIUtils
                 return _traverse; ;
             }
         }
+        #endregion Properties
 
 
         public HSceneProcTraverse(object instance)
@@ -368,77 +728,6 @@ namespace IDHIUtils
 
 
             /*
-
-            var yure = hsceneTraverse
-                .Field<YureCtrl>("yure").Value;
-            var yure1 = hsceneTraverse
-                .Field<YureCtrl>("yure1").Value;
-            var yureMale = hsceneTraverse
-                .Field<YureCtrl>("yureMale").Value;
-
-            var hand = hsceneTraverse
-                .Field<HandCtrl>("hand").Value;
-            var hand1 = hsceneTraverse
-                .Field<HandCtrl>("hand1").Value;
-
-            var item = hsceneTraverse
-                .Field<ItemObject>("item").Value;
-
-            var ctrlObi = hsceneTraverse
-                .Field<ObiCtrl>("ctrlObi").Value;
-
-            var siru = hsceneTraverse
-                .Field<SiruPasteCtrl>("siru").Value;
-            var siru1 = hsceneTraverse
-                .Field<SiruPasteCtrl>("siru1").Value;
-
-            var parentObjectFemale = hsceneTraverse
-                .Field<ParentObjectCtrl>("parentObjectFemale").Value;
-            var parentObjectFemale1 = hsceneTraverse
-                .Field<ParentObjectCtrl>("parentObjectFemale1").Value;
-            var parentObjectMale = hsceneTraverse
-                .Field<ParentObjectCtrl>("parentObjectMale").Value;
-
-            var eyeneckFemale = hsceneTraverse
-                .Field<HMotionEyeNeckFemale>("eyeneckFemale").Value;
-            var eyeneckFemale1 = hsceneTraverse
-                .Field<HMotionEyeNeckFemale>("eyeneckFemale1").Value;
-            var eyeneckMale = hsceneTraverse
-                .Field<HMotionEyeNeckMale>("eyeneckMale").Value;
-            var eyeneckMale1 = hsceneTraverse
-                .Field<HMotionEyeNeckMale>("eyeneckMale1").Value;
-
-            var se1 = hsceneTraverse
-                .Field<HSeCtrl>("se1").Value;
-
-
-            var dynamicCtrl = hsceneTraverse
-                .Field<DynamicBoneReferenceCtrl>("dynamicCtrl").Value;
-            var dynamicCtrl1 = hsceneTraverse
-                .Field<DynamicBoneReferenceCtrl>("dynamicCtrl1").Value;
-
-            var bChangePoint = hsceneTraverse
-                .Field<bool>("bChangePoint").Value;
-
-            var actYukaTaii = hsceneTraverse
-                .Field<bool>("actYukaTaii").Value;
-            var changeTaii = hsceneTraverse
-                .Field<bool>("actYukaTaii").Value;
-
-            var sprite = hsceneTraverse
-                .Field<HSprite>("sprite").Value;
-
-            var voicePlayShuffle = hsceneTraverse
-                .Field<ShuffleRand[]>("voicePlayShuffle").Value;
-
-            var SetLocalPosition = hsceneTraverse
-                .Method("SetLocalPosition",
-                    new Type[] { typeof(AnimationListInfo) });
-
-            var SetBoneOffset = hsceneTraverse
-                .Method("SetBoneOffset",
-                    new Type[] { typeof(AnimationListInfo), typeof(AnimationListInfo) });
-
             var SetMapObject = hsceneTraverse
                 .Method("SetMapObject",
                     new Type[] { typeof(int), typeof(int), typeof(string), typeof(string) });
@@ -450,5 +739,32 @@ namespace IDHIUtils
 
 
         }
+
+        #region Methods
+        public bool CheckExpAddTaii(int mode, int id, float exp)
+        {
+            var result = TCheckExpAddTaii.GetValue<bool>(mode, id, exp);
+            return result;
+        }
+
+        public bool CheckShopAdd(HashSet<int> buyList, int mode, int id)
+        {
+            var result = TCheckShopAdd.GetValue<bool>(buyList, mode, id);
+            return result;
+        }
+        public bool SetLocalPosition(AnimationListInfo _info)
+        {
+            var result = TSetLocalPosition.GetValue<bool>(_info);
+            return result;
+        }
+        public void SetBoneOffset(AnimationListInfo now, AnimationListInfo next)
+        {
+            TSetBoneOffset.GetValue(now, next);
+        }
+        public void CalckParameter(HScene.AddParameter add)
+        {
+            TCalcParameter.GetValue(add);
+        }
+        #endregion Methods
     }
 }
