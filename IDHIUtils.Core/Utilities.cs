@@ -76,7 +76,7 @@ namespace IDHIUtils
 
             private void GetPluginInfo()
             {
-                BepInEx.Bootstrap.Chainloader.PluginInfos.TryGetValue(_pluginGUID, out var PInfo);
+                BepInEx.Bootstrap.Chainloader.PluginInfos.TryGetValue(_pluginGUID, out var PInfo); 
                 _pluginInfo = PInfo;
             }
 
@@ -119,7 +119,10 @@ namespace IDHIUtils
         /// <param name="names"></param>
         /// <param name="quotes"></param>
         /// <returns></returns>
-        public static string CategoryList(List<HSceneProc.Category> categories, bool names = false, bool quotes = true)
+        public static string CategoryList(
+            List<HSceneProc.Category> categories,
+            bool names = false,
+            bool quotes = true)
         {
             var tmp = new StringBuilder();
             var first = true;
@@ -163,7 +166,10 @@ namespace IDHIUtils
         /// <param name="names"></param>
         /// <param name="quotes"></param>
         /// <returns></returns>
-        public static string CategoryList(List<int> categories, bool names = false, bool quotes = true)
+        public static string CategoryList(
+            List<int> categories,
+            bool names = false,
+            bool quotes = true)
         {
             var tmp = "";
             var first = true;
@@ -231,7 +237,8 @@ namespace IDHIUtils
             return quotes ? "\" { " + tmp + " }\"" : "{ " + tmp + " }";
         }
 
-        public static readonly Dictionary<SaveData.Heroine.HExperienceKind, string> HExperienceKind = new()
+        public static readonly Dictionary<SaveData.Heroine.HExperienceKind, string>
+            HExperienceKind = new()
         {
             { SaveData.Heroine.HExperienceKind.初めて, "First Time" },
             { SaveData.Heroine.HExperienceKind.不慣れ, "Inexperience" },
