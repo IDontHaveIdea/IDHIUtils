@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
-
+﻿//
+// Utilities.Scene
+// 
 using UnityEngine.SceneManagement;
+
 
 namespace IDHIUtils
 {
@@ -9,6 +11,7 @@ namespace IDHIUtils
     /// </summary>
     public partial class Utilities
     {
+        #region Static Methods
         /// <summary>
         /// Get name of active scene 
         /// </summary>
@@ -51,5 +54,6 @@ namespace IDHIUtils
             return Manager.Scene.Instance.LoadSceneName;
 #endif
         }
+        #endregion
     }
 }
