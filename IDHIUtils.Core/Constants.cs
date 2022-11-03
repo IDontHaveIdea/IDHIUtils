@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace IDHIUtils
 {
+    #region Static Classes
     public static class Constants
     {
 #if KK
@@ -13,7 +14,9 @@ namespace IDHIUtils
         public const string Prefix = "KKS";
 #endif
     }
+    #endregion
 
+    #region enums
     public enum PositionCategory
     {
         LieDown = 0,
@@ -91,5 +94,10 @@ namespace IDHIUtils
         SiruBackDown
     }
 
-
+    public enum Sex
+    {
+        Male = 0,
+        Female = 1
+    }
+    #endregion
 }

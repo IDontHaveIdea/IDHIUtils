@@ -6,12 +6,14 @@ namespace IDHIUtils
 {
     public partial class Utilities
     {
+        #region Static Methods
         /// <summary>
         /// Count all animations for every category
         /// </summary>
         /// <param name="lstAnimInfo"></param>
         /// <returns></returns>
-        public static int CountAnimations(List<HSceneProc.AnimationListInfo>[] lstAnimInfo)
+        public static int CountAnimations(
+            List<HSceneProc.AnimationListInfo>[] lstAnimInfo)
         {
             var count = 0;
 
@@ -41,6 +43,6 @@ namespace IDHIUtils
             }
             return 0;
         }
-
+        #endregion
     }
 }

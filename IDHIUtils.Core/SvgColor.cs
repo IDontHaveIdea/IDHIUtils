@@ -14,11 +14,14 @@ namespace IDHIUtils
     /// </summary>
     public class SvgColor
     {
+        #region Private Fields
         private static Texture2D _lut;
 
         internal bool _useLut = false;
         internal byte _alpha = 255;
+        #endregion
 
+        #region Properties
 #pragma warning disable IDE1006 // Naming Styles
         public Color black =>                Lut(new Color32(  0,   0,   0, _alpha));
         public Color navy =>                 Lut(new Color32(  0,   0, 128, _alpha));
@@ -186,17 +189,16 @@ namespace IDHIUtils
                 }
             } 
         }
+        #endregion
 
-        internal Color32 Lut(Color32 c) 
-        { 
-            return (_useLut) ? global::IDHIUtils.SvgColor.LookupColor(c) : c; 
-        }
-
+        #region Constructor
         public SvgColor(bool useLut = true)
         {
             _useLut = useLut;
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Initialize lookup table called in Awake()
         /// </summary>
@@ -230,5 +232,13 @@ namespace IDHIUtils
             var pixel2 = _lut.GetPixel((int)(num8 * 512f), (int)(num9 * 512f));
             return Color.Lerp(pixel, pixel2, Mathf.Repeat(num, 1f));
         }
+        #endregion
+
+        #region Private Methods
+        internal Color32 Lut(Color32 c)
+        {
+            return (_useLut) ? global::IDHIUtils.SvgColor.LookupColor(c) : c;
+        }
+        #endregion
     }
 }

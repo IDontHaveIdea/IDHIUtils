@@ -4,8 +4,10 @@
 
 using System;
 
-using KKAPI;
 using UnityEngine.SceneManagement;
+
+using KKAPI;
+
 
 namespace IDHIUtils
 {
@@ -16,8 +18,11 @@ namespace IDHIUtils
     /// </summary>
     public partial class Utilities
     {
+        #region Private Fields
         internal static Logg _Log = new();
+        #endregion
 
+        #region Unity Methods
         private void Awake()
         {
             _Log.LogSource = base.Logger;
@@ -33,7 +38,9 @@ namespace IDHIUtils
             HProcMonitor.Init();
             SceneManager.sceneLoaded += HProcMonitor.SceneLoaded;
         }
+        #endregion
 
+        #region Private Methods
         /// <summary>
         /// Game exit event handler
         /// </summary>
@@ -45,7 +52,6 @@ namespace IDHIUtils
             // Close special log file.
             Logg.Close();
         }
-
-
+        #endregion
     }
 }

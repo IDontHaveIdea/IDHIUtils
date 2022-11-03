@@ -19,8 +19,8 @@ namespace IDHIUtils
     /// </summary>
     public class HSceneProcTraverse
     {
-        #region private fields
-        private static Vector3 initVector = new(9999, 9999, 9999);
+        #region Private Fields
+        private static Vector3 _initVector = new(9999, 9999, 9999);
         private Traverse _traverse;
         private object _instance;
 
@@ -44,7 +44,7 @@ namespace IDHIUtils
         private ChaControl _male;
         private ChaControl _male1;
         private ActionMap _map;
-        private Vector3 _nowHpointDataPos = initVector;
+        private Vector3 _nowHpointDataPos = _initVector;
         private string _nowHpointData;
         private YureCtrl _yure;
         private YureCtrl _yure1;
@@ -395,7 +395,7 @@ namespace IDHIUtils
         {
             get
             {
-                if (_nowHpointDataPos == initVector)
+                if (_nowHpointDataPos == _initVector)
                 {
                     _nowHpointDataPos = Traverse
                         .Field<Vector3>("nowHpointDataPos").Value;
@@ -716,31 +716,14 @@ namespace IDHIUtils
         }
         #endregion Properties
 
-
+        #region Constructor
         public HSceneProcTraverse(object instance)
         {
             Helper(instance);
         }
+        #endregion
 
-        private void Helper(object instance)
-        {
-            _instance = instance;
-
-
-            /*
-            var SetMapObject = hsceneTraverse
-                .Method("SetMapObject",
-                    new Type[] { typeof(int), typeof(int), typeof(string), typeof(string) });
-
-            var SetClothStateStartMotion = hsceneTraverse
-                .Method("SetClothStateStartMotion",
-                    new Type[] { typeof(int) });
-            */
-
-
-        }
-
-        #region Methods
+        #region Public Methods
         public bool CheckExpAddTaii(int mode, int id, float exp)
         {
             var result = TCheckExpAddTaii.GetValue<bool>(mode, id, exp);
@@ -766,5 +749,25 @@ namespace IDHIUtils
             TCalcParameter.GetValue(add);
         }
         #endregion Methods
+
+        #region Private Methods
+        private void Helper(object instance)
+        {
+            _instance = instance;
+
+
+            /*
+            var SetMapObject = hsceneTraverse
+                .Method("SetMapObject",
+                    new Type[] { typeof(int), typeof(int), typeof(string), typeof(string) });
+
+            var SetClothStateStartMotion = hsceneTraverse
+                .Method("SetClothStateStartMotion",
+                    new Type[] { typeof(int) });
+            */
+
+
+        }
+        #endregion
     }
 }
