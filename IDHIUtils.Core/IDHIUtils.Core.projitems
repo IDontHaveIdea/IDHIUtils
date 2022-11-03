@@ -18,11 +18,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)HProcMonitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HSceneProcTraverse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utiliies.Scenes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Convenience\Utiliies.Scenes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin.Info.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SvgColor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Convenience\Utilities.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Convenience\" />
   </ItemGroup>
 </Project>
