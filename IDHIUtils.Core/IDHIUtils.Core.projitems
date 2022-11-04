@@ -12,6 +12,7 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\lookuptexture.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AnimationLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ButtonInterfaces.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
@@ -19,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)HSceneProcTraverse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Convenience\Utiliies.Scenes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MoreOutfits.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin.Info.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
