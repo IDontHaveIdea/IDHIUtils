@@ -28,20 +28,24 @@ namespace IDHIUtils
                 _hsHookInstance = Harmony.CreateAndPatchAll(typeof(Hooks));
                 if (_hsHookInstance == null)
                 {
-                    Utilities._Log.Level(LogLevel.Error, $"UTIL0005: [HProcMonitor] Cannot patch the " +
-                        $"system.");
-                    throw new ApplicationException($"UTIL0005: [HProcMonitor] Cannot patch the " +
-                        $"system.");
+                    Utilities._Log.Level(LogLevel.Error, $"UTIL0005: [HProcMonitor] " +
+                        $"Cannot patch the system.");
+                    throw new ApplicationException($"UTIL0005: [HProcMonitor] Cannot " +
+                        $"patch the system.");
                 }
 
                 // Patch through reflection
                 _hSceneProcType = Type.GetType("HSceneProc, Assembly-CSharp");
 
-                _hsHookInstance.Patch(_hSceneProcType.GetMethod("OnDestroy", AccessTools.all),
-                    prefix: new HarmonyMethod(typeof(Hooks), nameof(Hooks.OnDestroyPrefix)));
+                _hsHookInstance.Patch(_hSceneProcType.GetMethod(
+                    "OnDestroy", AccessTools.all),
+                    prefix: new HarmonyMethod(typeof(Hooks),
+                        nameof(Hooks.OnDestroyPrefix)));
 
-                _hsHookInstance.Patch(_hSceneProcType.GetMethod("SetShortcutKey", AccessTools.all),
-                    postfix: new HarmonyMethod(typeof(Hooks), nameof(Hooks.SetShortcutKeyPostfix)));
+                _hsHookInstance.Patch(_hSceneProcType.GetMethod(
+                    "SetShortcutKey", AccessTools.all),
+                    postfix: new HarmonyMethod(
+                        typeof(Hooks), nameof(Hooks.SetShortcutKeyPostfix)));
 #if DEBUG
                 Utilities._Log.Info($"UTIL0006: [HProcMonitor] Patch seams OK.");
 #endif
@@ -67,11 +71,13 @@ namespace IDHIUtils
             {
                 if (Kuuhou)
                 {
-                    Utilities._Log.Level(LogLevel.Warning, $"UTIL0007: [HProcMonitor] Already loaded.");
+                    Utilities._Log.Level(LogLevel.Warning, $"UTIL0007: [HProcMonitor] " +
+                        $"Already loaded.");
                     return;
                 }
 #if DEBUG
-                Utilities._Log.Level(LogLevel.Info, $"UTIL0001: [HProcMonitor] Loading ...");
+                Utilities._Log.Level(LogLevel.Info, $"UTIL0001: [HProcMonitor] " +
+                    $"Loading ...");
 #endif
                 var hsceneTraverse = Traverse.Create(__instance);
                 var flags = hsceneTraverse
@@ -83,7 +89,8 @@ namespace IDHIUtils
                 Player = ___male;
 #endif
                 OnHSceneFinishedLoading?.Invoke(null,
-                    new HSceneFinishedLoadingEventArgs(__instance, ___lstFemale, ___male));
+                    new HSceneFinishedLoadingEventArgs(
+                        __instance, ___lstFemale, ___male));
             }
         }
         #endregion
@@ -112,17 +119,18 @@ namespace IDHIUtils
         #region events
         public static event EventHandler OnHSceneStartLoading;
         public static event EventHandler OnHSceneExiting;
-        public static event EventHandler<HSceneFinishedLoadingEventArgs> OnHSceneFinishedLoading;
+        public static event EventHandler<HSceneFinishedLoadingEventArgs>
+            OnHSceneFinishedLoading;
 
         public class HSceneFinishedLoadingEventArgs : EventArgs
         {
-            public object ObjInstance { get; }
+            public object ObjectInstance { get; }
             public List<ChaControl> Females { get; }
             public ChaControl Male { get; }
             public HSceneFinishedLoadingEventArgs(object instance,
                 List<ChaControl> lstFemale, ChaControl male)
             {
-                ObjInstance = instance;
+                ObjectInstance = instance;
                 Females = lstFemale;
                 Male = male;
             }
