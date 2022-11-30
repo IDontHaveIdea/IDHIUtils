@@ -29,13 +29,14 @@ namespace IDHIUtils
         public class PInfo
         {
             #region Fields
-            private PluginInfo _pluginInfo;
+            private bool _installed = false;
             private string _pluginGUID;
+            private PluginInfo _pluginInfo;
             private Traverse _traverse;
-            private BaseUnityPlugin _instance = null;
             #endregion
 
             #region Properties
+            public bool Installed => _installed;
             public BaseUnityPlugin Instance => _pluginInfo?.Instance;
             public Version Version => _pluginInfo?.Metadata?.Version;
             public Traverse Traverse
@@ -88,15 +89,6 @@ namespace IDHIUtils
             #endregion
 
             #region Methods
-            private void GetPluginInfo()
-            {
-                BepInEx.Bootstrap.Chainloader.PluginInfos
-                    .TryGetValue(_pluginGUID, out var PInfo); 
-                _pluginInfo = PInfo;
-                _instance = _pluginInfo.Instance != null
-                    ? _pluginInfo.Instance : null;
-            }
-
             public bool VersionAtLeast(string version)
             {
                 if(_pluginInfo == null)
@@ -115,6 +107,20 @@ namespace IDHIUtils
                     return Traverse.Create(obj);
                 }
                 return null;
+            }
+
+            protected void GetPluginInfo()
+            {
+                BepInEx.Bootstrap.Chainloader.PluginInfos
+                    .TryGetValue(_pluginGUID, out var PInfo);
+                if (PInfo == null)
+                {
+                    _installed = false;
+                    _pluginInfo = null;
+                    return;
+                }
+                _pluginInfo = PInfo;
+                _installed = true;
             }
             #endregion
 

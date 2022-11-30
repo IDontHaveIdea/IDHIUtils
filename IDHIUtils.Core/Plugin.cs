@@ -35,6 +35,10 @@ namespace IDHIUtils
 
         private void Start()
         {
+#if KKS
+            HPointInfo.Init();
+            MakerInfo.Init();
+#endif
             HProcMonitor.Init();
             SceneManager.sceneLoaded += HProcMonitor.SceneLoaded;
         }
