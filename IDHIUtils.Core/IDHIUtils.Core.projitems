@@ -16,6 +16,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Animations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ButtonInterfaces.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MakerInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HPointInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HProcMonitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HSceneProcTraverse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
