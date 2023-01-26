@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Animations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ButtonInterfaces.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Convenience\Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MakerInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HPointInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HProcMonitor.cs" />
@@ -28,8 +29,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SvgColor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Convenience\Utilities.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Convenience\" />
   </ItemGroup>
 </Project>
