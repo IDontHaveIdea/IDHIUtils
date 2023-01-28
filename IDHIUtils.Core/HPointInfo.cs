@@ -90,6 +90,8 @@ namespace IDHIUtils
             var lines = new StringBuilder();
             lines.Clear();
 
+            lines.Append($"Initial position name={InitialPositionName} position=" +
+                $"{InitialPositon}\n");
             foreach (var hpointData in _closeHPointData)
             {
                 lines.Append($"Name: {hpointData.name} " +
