@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 using BepInEx.Logging;
 using HarmonyLib;
+using H;
 
 #if KKS
 using SaveData;
@@ -37,6 +38,12 @@ namespace IDHIUtils
                 // Patch through reflection
                 _hSceneProcType = Type.GetType("HSceneProc, Assembly-CSharp");
 
+#if KKS
+                _hsHookInstance.Patch(_hSceneProcType.GetMethod(
+                    "GetCloseCategory", AccessTools.all),
+                    postfix: new HarmonyMethod(typeof(Hooks),
+                        nameof(Hooks.GetCloseCategoryPostfix)));
+#endif
                 _hsHookInstance.Patch(_hSceneProcType.GetMethod(
                     "OnDestroy", AccessTools.all),
                     prefix: new HarmonyMethod(typeof(Hooks),
@@ -49,6 +56,19 @@ namespace IDHIUtils
 #if DEBUG
                 Utilities._Log.Info($"UTIL0006: [HProcMonitor] Patch seams OK.");
 #endif
+            }
+
+            private static void GetCloseCategoryPostfix(
+                object __instance,
+                List<ChaControl> ___lstFemale,
+                ChaControl ___male)
+            {
+#if DEBUG
+                Utilities._Log.Info($"[GetCloseCategory] HPoints set.");
+#endif
+                OnHSceneSetHPoints?.Invoke(null,
+                    new HSceneSetHPointsEventArgs(
+                        __instance, ___lstFemale, ___male));
             }
 
             private static void OnDestroyPrefix()
@@ -119,6 +139,22 @@ namespace IDHIUtils
         #region events
         public static event EventHandler OnHSceneStartLoading;
         public static event EventHandler OnHSceneExiting;
+        public static event EventHandler<HSceneSetHPointsEventArgs>
+            OnHSceneSetHPoints;
+        public class HSceneSetHPointsEventArgs : EventArgs
+        {
+            public object ObjectInstance { get; }
+            public List<ChaControl> Females { get; }
+            public ChaControl Male { get; }
+            public HSceneSetHPointsEventArgs(object instance,
+                List<ChaControl> lstFemale, ChaControl male)
+            {
+                ObjectInstance = instance;
+                Females = lstFemale;
+                Male = male;
+            }
+        }
+
         public static event EventHandler<HSceneFinishedLoadingEventArgs>
             OnHSceneFinishedLoading;
 
@@ -149,17 +185,22 @@ namespace IDHIUtils
 
             OnHSceneStartLoading += (_sender, _args) =>
             {
-                Utilities._Log.Info($"UTIL0002: [HProcMonitor] OnHSceneStartLoading.");
+                Utilities._Log.Info($"[HProcMonitor.Init] OnHSceneStartLoading.");
+            };
+
+            OnHSceneSetHPoints += (_sender, _args) =>
+            {
+                Utilities._Log.Info($"[HProcMonitor.Init] OnHSceneSetHPoints");
             };
 
             OnHSceneFinishedLoading += (_sender, _args) =>
             {
-                Utilities._Log.Info($"UTIL0003: [HProcMonitor] OnHSceneFinishedLoading.");
+                Utilities._Log.Info($"[HProcMonitor.Init] OnHSceneFinishedLoading.");
             };
 
             OnHSceneExiting += (_sender, _args) =>
             {
-                Utilities._Log.Info($"UTIL0004: [HProcMonitor] OnHSceneExiting.");
+                Utilities._Log.Info($"[HProcMonitor.Init] OnHSceneExiting.");
             };
         }
         #endregion
