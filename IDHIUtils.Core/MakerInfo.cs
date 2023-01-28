@@ -84,6 +84,7 @@ namespace IDHIUtils
         public static void Init()
         {
             SceneManager.sceneLoaded += SceneLoaded;
+            SceneManager.sceneUnloaded += SceneUnloaded;
         }
         #endregion
 
@@ -104,6 +105,15 @@ namespace IDHIUtils
             {
                 InMaker = TitleRoot;
                 InRoomMaker = ActionRoot;
+            }
+        }
+
+        private static void SceneUnloaded(Scene scene)
+        {
+            if (scene.name == "CustomScene")
+            {
+                InMaker = false;
+                InRoomMaker = false;
             }
         }
         #endregion
