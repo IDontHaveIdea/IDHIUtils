@@ -6,6 +6,8 @@ using System;
 
 using UnityEngine.SceneManagement;
 
+using BepInEx.Logging;
+
 using KKAPI;
 
 
@@ -26,9 +28,11 @@ namespace IDHIUtils
         private void Awake()
         {
             _Log.LogSource = base.Logger;
-#if DEBUG
-            _Log.Enabled = true;
-#endif
+            _Log.Level(LogLevel.Info, $"[{PluginName}] {PluginDisplayName} " +
+                $"loaded.");
+            ConfigEntries();
+            _Log.Enabled = DebugInfo.Value;
+            _Log.DebugToConsole = DebugToConsole.Value;
             SvgColor.Init();
             KoikatuAPI.Quitting += OnGameExit;
         }
