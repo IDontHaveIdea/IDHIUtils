@@ -29,9 +29,9 @@ namespace IDHIUtils
                 _hsHookInstance = Harmony.CreateAndPatchAll(typeof(Hooks));
                 if (_hsHookInstance == null)
                 {
-                    Utilities._Log.Level(LogLevel.Error, $"UTIL0005: [HProcMonitor] " +
+                    Utilities._Log.Level(LogLevel.Error, $"[HProcMonitor.Hooks.Init] " +
                         $"Cannot patch the system.");
-                    throw new ApplicationException($"UTIL0005: [HProcMonitor] Cannot " +
+                    throw new ApplicationException($"[HProcMonitor.Hooks.Init] Cannot " +
                         $"patch the system.");
                 }
 
@@ -91,12 +91,12 @@ namespace IDHIUtils
             {
                 if (Kuuhou)
                 {
-                    Utilities._Log.Level(LogLevel.Warning, $"UTIL0007: [HProcMonitor] " +
+                    Utilities._Log.Warning($"[HProcMonitor] [SetShortcutKey] " +
                         $"Already loaded.");
                     return;
                 }
 #if DEBUG
-                Utilities._Log.Level(LogLevel.Info, $"UTIL0001: [HProcMonitor] " +
+                Utilities._Log.Info($"[HProcMonitor] [SetShortcutKey] " +
                     $"Loading ...");
 #endif
                 var hsceneTraverse = Traverse.Create(__instance);
