@@ -8,10 +8,10 @@ using IDHIUtils;
  * These attributes define various meta-information of the generated DLL.
  * In general, you don't need to touch these. Instead, edit the values in Info.
  */
-[assembly: AssemblyTitle(Constants.Prefix + "_" + Info.PluginName + " (" + Info.GUID + ")")]
-[assembly: AssemblyProduct(Constants.Prefix + "_" + Info.PluginName)]
-[assembly: AssemblyVersion(Info.Version)]
-[assembly: AssemblyFileVersion(Info.Version)]
+[assembly: AssemblyTitle(Constants.Prefix + "_" + Utilities.PluginName + " (" + Utilities.GUID + ")")]
+[assembly: AssemblyProduct(Constants.Prefix + "_" + Utilities.PluginName)]
+[assembly: AssemblyVersion(Utilities.Version)]
+[assembly: AssemblyFileVersion(Utilities.Version)]
 
 #endregion Assembly attributes
 
@@ -22,7 +22,7 @@ using IDHIUtils;
 
 namespace IDHIUtils
 {
-    public class Info
+    public partial class Utilities
     {
         #region Public Fields
         public const string GUID = "com.ihavenoidea.idhiutils";
