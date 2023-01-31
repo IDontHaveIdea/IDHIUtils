@@ -122,12 +122,14 @@ namespace IDHIUtils
         /// <summary>
         /// HProcMonitor Hooks are loaded if true
         /// </summary>
-        public static bool Kuuhou { get; internal set; }
+        public static bool Kuuhou { get; internal set; } = false;
 
         /// <summary>
         /// True if we are inside an HScene
         /// </summary>
-        public static bool Nakadashi { get; internal set; }
+        public static bool Nakadashi { get; internal set; } = false;
+
+        public static bool Loading { get; internal set; } = false;
 
 #if KKS
         public static List<Heroine> Heroines { get; internal set; }
@@ -185,6 +187,7 @@ namespace IDHIUtils
 
             OnHSceneStartLoading += (_sender, _args) =>
             {
+                Loading = true;
                 Utilities._Log.Info($"[HProcMonitor.Init] OnHSceneStartLoading.");
             };
 
@@ -195,6 +198,7 @@ namespace IDHIUtils
 
             OnHSceneFinishedLoading += (_sender, _args) =>
             {
+                Loading = false;
                 Utilities._Log.Info($"[HProcMonitor.Init] OnHSceneFinishedLoading.");
             };
 
