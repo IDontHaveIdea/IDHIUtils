@@ -1,14 +1,29 @@
 ﻿//
 // Extensions
 //
+using System;
 
-using ActionGame.Chara;
+using UnityEngine;
 using KKAPI.MainGame;
 
 namespace IDHIUtils
 {
     public static class UtilsExtensions
     {
+        public static string FormatVector(
+            this Vector3 self,
+            string decimals = default,
+            int spaces = default)
+        {
+            string formatString;
+
+            formatString = $"( " +
+                $"{string.Format($"{{0,{spaces}:{decimals}}}", self.x)}, " +
+                $"{string.Format($"{{0,{spaces}:{decimals}}}", self.y)}, " +
+                $"{string.Format($"{{0,{spaces}:{decimals}}}", self.z)} )";
+
+            return formatString;
+        }
         public static int MapNumber(this SaveData.Heroine self)
         {
             var nPC = self.GetNPC();
