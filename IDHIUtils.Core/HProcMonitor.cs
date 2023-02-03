@@ -141,6 +141,7 @@ namespace IDHIUtils
         #region events
         public static event EventHandler OnHSceneStartLoading;
         public static event EventHandler OnHSceneExiting;
+
         public static event EventHandler<HSceneSetHPointsEventArgs>
             OnHSceneSetHPoints;
         public class HSceneSetHPointsEventArgs : EventArgs
