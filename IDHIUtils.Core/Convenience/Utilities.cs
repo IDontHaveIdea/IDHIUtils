@@ -43,7 +43,7 @@ namespace IDHIUtils
             {
                 get
                 {
-                    if(_traverse == null)
+                    if (_traverse == null)
                     {
                         if (Instance != null)
                         {
