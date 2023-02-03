@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using static IDHIUtils.Utilities;
+//using static IDHIUtils.Utilities;
 
 namespace IDHIUtils
 {
@@ -51,6 +51,16 @@ namespace IDHIUtils
             return Traverse.Method("GetAnimationMovement",
                 new Type[] { typeof(HSceneProc.AnimationListInfo) })?
                 .GetValue<List<Vector3>>(anim);
+        }
+
+        public void LoadTestXml()
+        {
+            if (!Installed)
+            {
+                return;
+            }
+
+            Traverse.Method("LoadTestXml", new Type[] { })?.GetValue();
         }
     }
 }
