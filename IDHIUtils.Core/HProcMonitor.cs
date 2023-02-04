@@ -1,7 +1,7 @@
 ﻿//
-// Based on code by Madevil
 // HProcScene handle events for start and stop H Scene
-// upon start and disabled on H Scene exit
+// Permits plug-ins to start disabled and changed the
+// enabled status at runtime.
 //
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,9 @@ using BepInEx.Logging;
 using HarmonyLib;
 using H;
 
-#if KKS
+#if KK
+using static SaveData;
+#else
 using SaveData;
 #endif
 
@@ -38,13 +40,7 @@ namespace IDHIUtils
                 // Patch through reflection
                 _hSceneProcType = Type.GetType("HSceneProc, Assembly-CSharp");
 
-#if KKS
-                _hsHookInstance.Patch(_hSceneProcType.GetMethod(
-                    "GetCloseCategory", AccessTools.all),
-                    postfix: new HarmonyMethod(typeof(Hooks),
-                        nameof(Hooks.GetCloseCategoryPostfix)));
-#endif
-                _hsHookInstance.Patch(_hSceneProcType.GetMethod(
+                /*_hsHookInstance.Patch(_hSceneProcType.GetMethod(
                     "OnDestroy", AccessTools.all),
                     prefix: new HarmonyMethod(typeof(Hooks),
                         nameof(Hooks.OnDestroyPrefix)));
@@ -52,37 +48,18 @@ namespace IDHIUtils
                 _hsHookInstance.Patch(_hSceneProcType.GetMethod(
                     "SetShortcutKey", AccessTools.all),
                     postfix: new HarmonyMethod(
-                        typeof(Hooks), nameof(Hooks.SetShortcutKeyPostfix)));
+                        typeof(Hooks), nameof(Hooks.SetShortcutKeyPostfix)));*/
 #if DEBUG
                 Utilities._Log.Info($"UTIL0006: [HProcMonitor] Patch seams OK.");
 #endif
             }
 
-            private static void GetCloseCategoryPostfix(
-                object __instance,
-                List<ChaControl> ___lstFemale,
-                ChaControl ___male)
-            {
-#if DEBUG
-                Utilities._Log.Info($"[GetCloseCategory] HPoints set.");
-#endif
-                OnHSceneSetHPoints?.Invoke(null,
-                    new HSceneSetHPointsEventArgs(
-                        __instance, ___lstFemale, ___male));
-            }
-
-            private static void OnDestroyPrefix()
-            {
-                OnHSceneExiting?.Invoke(null, null);
-                Nakadashi = false;
-                Kuuhou = false;
-#if KKS
-                Heroines = null;
-#endif
-                _hsHookInstance.UnpatchSelf();
-                _hsHookInstance = null;
-            }
-
+            /// <summary>
+            /// Hook into HSceneProc SetShortcutKey load slate in HSceneProc Start method
+            /// </summary>
+            /// <param name="__instance">object instance of HSceneProc</param>
+            [HarmonyPostfix]
+            [HarmonyPatch(typeof(HSceneProc), nameof(HSceneProc.SetShortcutKey))]
             private static void SetShortcutKeyPostfix(
                 object __instance,
                 List<ChaControl> ___lstFemale,
@@ -103,14 +80,30 @@ namespace IDHIUtils
                 var flags = hsceneTraverse
                         .Field<HFlag>("flags").Value;
                 Kuuhou = true;
-#if KKS
                 Heroines = flags.lstHeroine;
-                HProcMonitor.HFlag = flags;
+                HFlags = flags;
                 Player = ___male;
-#endif
+
                 OnHSceneFinishedLoading?.Invoke(null,
                     new HSceneFinishedLoadingEventArgs(
                         __instance, ___lstFemale, ___male));
+            }
+
+            /// <summary>
+            /// Hook into HSceneProc OnDestroy
+            /// </summary>
+            [HarmonyPostfix]
+            [HarmonyPatch(typeof(HSceneProc), nameof(HSceneProc.OnDestroy))]
+            private static void OnDestroyPrefix()
+            {
+                OnHSceneExiting?.Invoke(null, null);
+                Nakadashi = false;
+                Kuuhou = false;
+#if KKS
+                Heroines = null;
+#endif
+                _hsHookInstance.UnpatchSelf();
+                _hsHookInstance = null;
             }
         }
         #endregion
@@ -131,36 +124,19 @@ namespace IDHIUtils
 
         public static bool Loading { get; internal set; } = false;
 
-#if KKS
+//#if KKS
         public static List<Heroine> Heroines { get; internal set; }
         public static ChaControl Player { get; internal set; }
-        public static HFlag HFlag { get; internal set; }
-#endif
+        public static HFlag HFlags { get; internal set; }
+//#endif
         #endregion
 
         #region events
         public static event EventHandler OnHSceneStartLoading;
         public static event EventHandler OnHSceneExiting;
 
-        public static event EventHandler<HSceneSetHPointsEventArgs>
-            OnHSceneSetHPoints;
-        public class HSceneSetHPointsEventArgs : EventArgs
-        {
-            public object ObjectInstance { get; }
-            public List<ChaControl> Females { get; }
-            public ChaControl Male { get; }
-            public HSceneSetHPointsEventArgs(object instance,
-                List<ChaControl> lstFemale, ChaControl male)
-            {
-                ObjectInstance = instance;
-                Females = lstFemale;
-                Male = male;
-            }
-        }
-
         public static event EventHandler<HSceneFinishedLoadingEventArgs>
             OnHSceneFinishedLoading;
-
         public class HSceneFinishedLoadingEventArgs : EventArgs
         {
             public object ObjectInstance { get; }
@@ -190,11 +166,6 @@ namespace IDHIUtils
             {
                 Loading = true;
                 Utilities._Log.Info($"[HProcMonitor.Init] OnHSceneStartLoading.");
-            };
-
-            OnHSceneSetHPoints += (_sender, _args) =>
-            {
-                Utilities._Log.Info($"[HProcMonitor.Init] OnHSceneSetHPoints");
             };
 
             OnHSceneFinishedLoading += (_sender, _args) =>
