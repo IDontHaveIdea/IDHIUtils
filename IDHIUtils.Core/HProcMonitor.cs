@@ -99,9 +99,10 @@ namespace IDHIUtils
                 OnHSceneExiting?.Invoke(null, null);
                 Nakadashi = false;
                 Kuuhou = false;
-#if KKS
                 Heroines = null;
-#endif
+                HFlags = null;
+                Player = null;
+
                 _hsHookInstance.UnpatchSelf();
                 _hsHookInstance = null;
             }
@@ -121,14 +122,10 @@ namespace IDHIUtils
         /// True if we are inside an HScene
         /// </summary>
         public static bool Nakadashi { get; internal set; } = false;
-
         public static bool Loading { get; internal set; } = false;
-
-//#if KKS
         public static List<Heroine> Heroines { get; internal set; }
         public static ChaControl Player { get; internal set; }
         public static HFlag HFlags { get; internal set; }
-//#endif
         #endregion
 
         #region events
