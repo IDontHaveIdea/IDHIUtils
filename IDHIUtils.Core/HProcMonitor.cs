@@ -10,7 +10,6 @@ using UnityEngine.SceneManagement;
 
 using BepInEx.Logging;
 using HarmonyLib;
-using H;
 
 #if KK
 using static SaveData;
@@ -26,6 +25,11 @@ namespace IDHIUtils
         #region Classes
         public class Hooks
         {
+            /// <summary>
+            /// Establish the hooks
+            /// </summary>
+            /// <exception cref="ApplicationException">Generated when patch does not 
+            /// work</exception>
             internal static void Init()
             {
                 _hsHookInstance = Harmony.CreateAndPatchAll(typeof(Hooks));
@@ -36,72 +40,77 @@ namespace IDHIUtils
                     throw new ApplicationException($"[HProcMonitor.Hooks.Init] Cannot " +
                         $"patch the system.");
                 }
-
-                // Patch through reflection
-                _hSceneProcType = Type.GetType("HSceneProc, Assembly-CSharp");
-
-                /*_hsHookInstance.Patch(_hSceneProcType.GetMethod(
-                    "OnDestroy", AccessTools.all),
-                    prefix: new HarmonyMethod(typeof(Hooks),
-                        nameof(Hooks.OnDestroyPrefix)));
-
-                _hsHookInstance.Patch(_hSceneProcType.GetMethod(
-                    "SetShortcutKey", AccessTools.all),
-                    postfix: new HarmonyMethod(
-                        typeof(Hooks), nameof(Hooks.SetShortcutKeyPostfix)));*/
 #if DEBUG
-                Utilities._Log.Info($"UTIL0006: [HProcMonitor] Patch seams OK.");
+                Utilities._Log.Info($"[HProcMonitor.Hooks.Init] Patch seams OK.");
 #endif
             }
 
             /// <summary>
-            /// Hook into HSceneProc SetShortcutKey load slate in HSceneProc Start method
+            /// Prefix for HSceneProc.Start invokes OnStartLoading event with
+            /// HSceneLoadingEventArgs
             /// </summary>
-            /// <param name="__instance">object instance of HSceneProc</param>
+            /// <param name="__instance">HSceneProc object instance</param>
+            [HarmonyPrefix]
+            [HarmonyPatch(typeof(HSceneProc), nameof(HSceneProc.Start))]
+            private static void StartPrefix(
+                object __instance)
+            {
+                var hsceneTraverse = Traverse.Create(__instance);
+                var flags = hsceneTraverse
+                        .Field<HFlag>("flags").Value;
+                var sprite = hsceneTraverse.Field<HSprite>("sprite").Value;
+                OnStartLoading?.Invoke(null,
+                    new HSceneLoadingEventArgs(
+                        __instance, flags, sprite, null, null));
+
+            }
+
+            /// <summary>
+            /// Hook into HSceneProc SetShortcutKey load late in HSceneProc Start method.
+            /// Invokes OnFinishLoading event with HSceneLoadingEventArgs
+            /// </summary>
+            /// <param name="__instance">HSceneProc object instance</param>
             [HarmonyPostfix]
             [HarmonyPatch(typeof(HSceneProc), nameof(HSceneProc.SetShortcutKey))]
             private static void SetShortcutKeyPostfix(
                 object __instance,
                 List<ChaControl> ___lstFemale,
-                ChaControl ___male,
-                HSprite ___sprite)
+                ChaControl ___male)
             {
                 if (Kuuhou)
                 {
-                    Utilities._Log.Warning($"[HProcMonitor] [SetShortcutKey] " +
+                    Utilities._Log.Warning($"[HProcMonitor.Hooks.SetShortcutKey] " +
                         $"Already loaded.");
                     return;
                 }
-#if DEBUG
-                Utilities._Log.Info($"[HProcMonitor] [SetShortcutKey] " +
-                    $"Loading ...");
-#endif
+
                 var hsceneTraverse = Traverse.Create(__instance);
                 var flags = hsceneTraverse
                         .Field<HFlag>("flags").Value;
+                var sprite = hsceneTraverse.Field<HSprite>("sprite").Value;
                 Kuuhou = true;
+                Flags = flags;
                 Heroines = flags.lstHeroine;
-                HFlags = flags;
                 Player = ___male;
 
-                OnHSceneFinishedLoading?.Invoke(null,
-                    new HSceneFinishedLoadingEventArgs(
-                        __instance, ___lstFemale, ___male));
+                OnFinishedLoading?.Invoke(null,
+                    new HSceneLoadingEventArgs(
+                        __instance, flags, sprite, ___lstFemale, ___male));
             }
 
             /// <summary>
-            /// Hook into HSceneProc OnDestroy
+            /// Hook into HSceneProc OnDestroy invokes OnExit event
             /// </summary>
             [HarmonyPostfix]
             [HarmonyPatch(typeof(HSceneProc), nameof(HSceneProc.OnDestroy))]
             private static void OnDestroyPrefix()
             {
-                OnHSceneExiting?.Invoke(null, null);
                 Nakadashi = false;
                 Kuuhou = false;
                 Heroines = null;
-                HFlags = null;
+                Flags = null;
                 Player = null;
+                OnExit?.Invoke(null, null);
 
                 _hsHookInstance.UnpatchSelf();
                 _hsHookInstance = null;
@@ -110,7 +119,7 @@ namespace IDHIUtils
         #endregion
 
         internal static Harmony _hsHookInstance;
-        internal static Type _hSceneProcType;
+        //internal static Type _hSceneProcType;
 
         #region Properties
         /// <summary>
@@ -125,53 +134,65 @@ namespace IDHIUtils
         public static bool Loading { get; internal set; } = false;
         public static List<Heroine> Heroines { get; internal set; }
         public static ChaControl Player { get; internal set; }
-        public static HFlag HFlags { get; internal set; }
+        public static HFlag Flags { get; internal set; }
         #endregion
 
         #region events
-        public static event EventHandler OnHSceneStartLoading;
-        public static event EventHandler OnHSceneExiting;
+        public static event EventHandler OnInit;
+        public static event EventHandler OnExit;
 
-        public static event EventHandler<HSceneFinishedLoadingEventArgs>
-            OnHSceneFinishedLoading;
-        public class HSceneFinishedLoadingEventArgs : EventArgs
+        public static event EventHandler<HSceneLoadingEventArgs>
+            OnStartLoading;
+        public static event EventHandler<HSceneLoadingEventArgs>
+            OnFinishedLoading;
+
+        public class HSceneLoadingEventArgs : EventArgs
         {
             public object ObjectInstance { get; }
+            public HFlag HFlag { get; }
+            public HSprite Sprite { get; }
             public List<ChaControl> Females { get; }
             public ChaControl Male { get; }
-            public HSceneFinishedLoadingEventArgs(object instance,
+            public HSceneLoadingEventArgs(object instance,
+                HFlag hFlag, HSprite sprite,
                 List<ChaControl> lstFemale, ChaControl male)
             {
                 ObjectInstance = instance;
+                HFlag = hFlag;
+                Sprite = sprite;
                 Females = lstFemale;
                 Male = male;
             }
         }
 
-        internal static void InvokeOnHSceneStartLoading(object _sender, EventArgs _args)
-        {
-            OnHSceneStartLoading?.Invoke(_sender, _args);
-        }
+        //internal static void InvokeOnHSceneStartLoading(object _sender, EventArgs _args)
+        //{
+        //    OnStartLoading?.Invoke(_sender, _args);
+        //}
         #endregion
 
         #region Public Methods
         public static void Init()
         {
-            //mother = obj;
-
-            OnHSceneStartLoading += (_sender, _args) =>
+            OnInit += (_sender, _args) =>
             {
                 Loading = true;
+                Utilities._Log.Info($"[HProcMonitor.Init] OnInit.");
+            };
+
+
+            OnStartLoading += (_sender, _args) =>
+            {
                 Utilities._Log.Info($"[HProcMonitor.Init] OnHSceneStartLoading.");
             };
 
-            OnHSceneFinishedLoading += (_sender, _args) =>
+            OnFinishedLoading += (_sender, _args) =>
             {
                 Loading = false;
                 Utilities._Log.Info($"[HProcMonitor.Init] OnHSceneFinishedLoading.");
             };
 
-            OnHSceneExiting += (_sender, _args) =>
+            OnExit += (_sender, _args) =>
             {
                 Utilities._Log.Info($"[HProcMonitor.Init] OnHSceneExiting.");
             };
@@ -179,13 +200,13 @@ namespace IDHIUtils
         #endregion
 
         #region Private Methods
-        internal static void SceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+        internal static void SceneLoaded(Scene scene, LoadSceneMode _)
         {
             if (scene.name == "HProc")
             {
                 Nakadashi = true;
                 Hooks.Init();
-                InvokeOnHSceneStartLoading(null, null);
+                OnInit?.Invoke(null, null);
             }
         }
         #endregion
