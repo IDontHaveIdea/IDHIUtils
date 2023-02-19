@@ -2,8 +2,15 @@
 // Utilities
 //
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+
+using UnityEngine;
+
 
 using HarmonyLib;
 
@@ -11,8 +18,6 @@ using BepInEx;
 
 using KKAPI.Utilities;
 using KKAPI.MainGame;
-using UnityEngine;
-using System.Diagnostics;
 
 namespace IDHIUtils
 {
@@ -422,7 +427,7 @@ namespace IDHIUtils
                 {
                     // Note that high up the call stack, there is only
                     // one stack frame.
-                    StackFrame sf = st.GetFrame(i);
+                    var sf = st.GetFrame(i);
                     Console.WriteLine();
                     Console.WriteLine($"i={i} High up the call stack, Method: {sf.GetMethod()}");
 
@@ -432,6 +437,66 @@ namespace IDHIUtils
 
             return longInfo ? $"{st.GetFrame(frame).GetMethod()}"
                 : st.GetFrame(frame).GetMethod().Name;
+        }
+
+        public static string CleanFileName1(string filename)
+        {
+            var file = filename;
+            file = string.Concat(file.Split(System.IO.Path.GetInvalidFileNameChars(), StringSplitOptions.RemoveEmptyEntries));
+
+            if (file.Length > 250)
+            {
+                file = file.Substring(0, 250);
+            }
+            return file;
+        }
+
+        public static string CleanFileName2(string filename)
+        {
+            var builder = new StringBuilder();
+            var invalid = System.IO.Path.GetInvalidFileNameChars();
+            foreach (var cur in filename)
+            {
+                if (!invalid.Contains(cur))
+                {
+                    builder.Append(cur);
+                }
+            }
+            return builder.ToString();
+        }
+
+        public static string CleanFileName3(string filename)
+        {
+            var regexSearch = string.Format("{0}{1}",
+                new string(System.IO.Path.GetInvalidFileNameChars()),
+                new string(System.IO.Path.GetInvalidPathChars()));
+            var r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
+            var file = r.Replace(filename, "");
+
+            return file;
+        }
+
+        public static string CleanFileName4(string filename)
+        {
+            return new string(filename.Except(System.IO.Path.GetInvalidFileNameChars()).ToArray());
+        }
+
+        public static string CleanFileName5(string filename)
+        {
+            var file = filename;
+
+            foreach (var c in System.IO.Path.GetInvalidFileNameChars())
+            {
+                file = file.Replace(c, '_');
+            }
+            return file;
+        }
+
+        public static string RemoveInvalidFilePathCharacters(string filename, string replaceChar)
+        {
+            var regexSearch = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+            var r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
+            return r.Replace(filename, replaceChar);
         }
         #endregion
     }
