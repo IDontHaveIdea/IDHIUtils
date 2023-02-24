@@ -53,6 +53,18 @@ namespace IDHIUtils
                 .GetValue<List<Vector3>>(anim);
         }
 
+        public List<string> GetControllers(HSceneProc.AnimationListInfo anim)
+        {
+            if (!Installed)
+            {
+                return null;
+            }
+
+            return Traverse.Method("Controllers",
+                new Type[] { typeof(HSceneProc.AnimationListInfo) })?
+                .GetValue<List<string>>(anim);
+        }
+
         public void LoadTestXml()
         {
             if (!Installed)
