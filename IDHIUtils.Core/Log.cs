@@ -35,7 +35,14 @@ namespace IDHIUtils
 
             set
             {
-                _enabled = value;
+                if (_logSource != null)
+                {
+                    _enabled = value;
+                }
+                else
+                {
+                    _enabled = false;
+                }
             }
         }
 
@@ -75,21 +82,26 @@ namespace IDHIUtils
             }
             set
             {
-                if (_logSource == null)
-                {
-                    _logSource = value;
-                }
+                _logSource = value;
             }
+        }
+        #endregion
+
+        #region Constructors
+        public Logg()
+        {
+        }
+
+        public Logg(ManualLogSource logSource)
+        {
+            LogSource = logSource;
         }
         #endregion
 
         #region Public Methods
         public void SetLogSource(ManualLogSource logSource)
         {
-            if (_logSource == null)
-            {
-                _logSource = logSource;
-            }
+            _logSource = logSource;
         }
 
         public void Info(object data, bool withCaller = false)
@@ -293,10 +305,7 @@ namespace IDHIUtils
 
         public static void Close()
         {
-            if (_writer != null)
-            {
-                _writer.Close();
-            }
+            _writer?.Close();
         }
         #endregion
 
