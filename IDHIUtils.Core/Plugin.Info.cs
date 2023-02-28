@@ -42,7 +42,7 @@ namespace IDHIUtils
     {
         #region Public Fields
         public const string GUID = "com.ihavenoidea.idhiutils";
-        public const string Version = "1.0.5.0";
+        public const string Version = "1.0.5.1";
 #if DEBUG
         public const string PluginDisplayName = "IDHI Utilities (Debug)";
 #else
