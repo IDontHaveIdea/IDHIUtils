@@ -8,10 +8,12 @@ using UnityEngine;
 
 namespace IDHIUtils
 {
-    // Button with text
+    // save action button
     public interface IButton
     {
         string Text { get; }
+        Rect Position { get; }
+        void Process();
     }
 
     // Background and Foreground color
@@ -21,57 +23,24 @@ namespace IDHIUtils
         Color ForegroundColor { get; set; }
     }
 
-    // Position Rect
-    public interface IPosition
-    {
-        Rect Position { get; }
-    }
-
-    // Process calling
-    public interface IProcess
-    {
-        void Process();
-    }
-
     // State setting
     public interface IState
     {
         void SetState(byte state);
     }
 
-    // Button with text and color definition
+    // Button with position, process and color
     public interface IColorButton : IButton, IColor
     {
     }
 
-    // Button with a position definition
-    public interface IPositionButton : IButton, IPosition
+    // Button state added
+    public interface IStateButton : IButton, IState
     {
     }
 
-    // Button with a position and color
-    public interface IColorPositionButton : IPositionButton, IColor
-    {
-    }
-
-    // Button with position and process
-    // Process is meant to be generic not suggesting what is doing
-    public interface IActionButton : IPositionButton, IProcess
-    {
-    }
-
-    // Button with position, process and color
-    public interface IColorActionButton : IActionButton, IColor
-    {
-    }
-
-    // Button with position, process and state
-    public interface IActionStateButton : IActionButton, IState
-    {
-    }
-
-    // Button with position, process, state and color
-    public interface IColorActionStateButton : IActionStateButton, IColor
+    // Button state and color
+    public interface IColorStateButton : IStateButton, IColor
     {
     }
 
@@ -80,78 +49,66 @@ namespace IDHIUtils
     
     // Toggle button has a state method
     [Obsolete("IToggleButton is deprecated use IActionButton")]
-    public interface IToggleButton : IButton
+    public interface IToggleButton
     {
-        void ToggleState();
     }
 
     // Toggle button adding color
     [Obsolete("IToggleColorButton is deprecated use IColorActionButton")]
-    public interface IToggleColorButton : IColorButton
+    public interface IToggleColorButton
     {
-        void ToggleState();
     }
 
     // Toggle button adding color
     [Obsolete("ColorToggleButton is deprecated use IColorActionButton")]
-    public interface IColorToggleButton : IColorButton
+    public interface IColorToggleButton
     {
-        void ToggleState();
     }
 
     // Button with position and trigger event
     [Obsolete("IButtonEventTrigger is deprecated use IActionButton")]
-    public interface IButtonEventTrigger : IPositionButton
+    public interface IButtonEventTrigger
     {
-        void TriggerEvent();
     }
 
     // Button with position, trigger event and color
     [Obsolete("IColorButtonEventTrigger is deprecated use IColorActionButton")]
-    public interface IColorButtonEventTrigger : IColorPositionButton
+    public interface IColorButtonEventTrigger
     {
-        void TriggerEvent();
     }
 
     // Button with position and next state method
     [Obsolete("INextStateButton is deprecated use IActionButton")]
-    public interface INextStateButton : IPositionButton
+    public interface INextStateButton
     {
-        void NextState();
     }
 
     [Obsolete("INextStateColorButton is deprecated use IColorActionButton")]
-    public interface INextStateColorButton : IColorPositionButton
+    public interface INextStateColorButton
     {
-        void NextState();
     }
 
     // Button with position next state method and color
     [Obsolete("IColorNextStateButton is deprecated use IColorActionButton")]
-    public interface IColorNextStateButton : IColorPositionButton
+    public interface IColorNextStateButton
     {
-        void NextState();
     }
 
     // Button with position next state method and set state method
     [Obsolete("IStateToggleButton is deprecated use IActionStateButton")]
-    public interface IStateToggleButton : INextStateButton
+    public interface IStateToggleButton
     {
-        void SetState(byte state);
     }
 
     // Button with position next state method and set state method and color
     [Obsolete("IStateToggleColorButton is deprecated use IColorActionStateButton")]
-    public interface IStateToggleColorButton : INextStateColorButton
+    public interface IStateToggleColorButton
     {
-        void SetState(byte state);
     }
 
     // Button with position next state method and set state method and color
     [Obsolete("IColorStateToggleButton is deprecated use IColorActionStateButton")]
-    public interface IColorStateToggleButton : IColorNextStateButton
+    public interface IColorStateToggleButton
     {
-        void SetState(byte state);
     }
-
 }
