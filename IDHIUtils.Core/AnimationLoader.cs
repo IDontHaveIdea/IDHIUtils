@@ -6,12 +6,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-//using static IDHIUtils.Utilities;
 
 namespace IDHIUtils
 {
     /// <summary>
-    /// Class to get animation keys from AnimationLoader through reflection
+    /// Class to get calls to some methods in AnimationLoader through reflection
     /// </summary>
     public class AnimationLoader : Utilities.PInfo
     {
@@ -23,9 +22,9 @@ namespace IDHIUtils
             GetExpAddTaii()
         {
             var _alDicExpAddTaii = Traverse
-                    .Field<Dictionary<string,
-                        Dictionary<int,
-                        Dictionary<string, int>>>>("_alDicExpAddTaii").Value;
+                .Field<Dictionary<string,
+                    Dictionary<int,
+                    Dictionary<string, int>>>>("_alDicExpAddTaii").Value;
             return _alDicExpAddTaii;
         }
 

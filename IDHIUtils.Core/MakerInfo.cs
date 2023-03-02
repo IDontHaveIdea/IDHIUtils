@@ -71,6 +71,7 @@ using UnityEngine.SceneManagement;
 
 namespace IDHIUtils
 {
+    // Can Identify if the maker been used is called from the room or the title screen
     public partial class MakerInfo
     {
         #region Properties

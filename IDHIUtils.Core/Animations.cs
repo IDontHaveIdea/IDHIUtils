@@ -37,9 +37,13 @@ namespace IDHIUtils
             var dicExpAddTaii = hsceneTraverse
                 .Field<Dictionary<int, Dictionary<int, int>>>("dicExpAddTaii").Value;
 
-            if (dicExpAddTaii.ContainsKey(mode) && dicExpAddTaii[mode].ContainsKey(id))
+            //if (dicExpAddTaii.ContainsKey(mode) && dicExpAddTaii[mode].ContainsKey(id))
+            if (dicExpAddTaii.TryGetValue(mode, out var dictMode))
             {
-                return dicExpAddTaii[mode][id];
+                if (dictMode.TryGetValue(id, out var value))
+                {
+                    return value;
+                }
             }
             return 0;
         }

@@ -1,7 +1,7 @@
 ﻿//
 // HProcScene handle events for start and stop H Scene
-// Permits plug-ins to start disabled and changed the
-// enabled status at runtime.
+// Permits that interact during H-Scene plug-ins to start disabled and changed to
+// enabled status when the H-Scene loads.
 //
 using System;
 using System.Collections.Generic;
@@ -47,7 +47,9 @@ namespace IDHIUtils
 
             /// <summary>
             /// Prefix for HSceneProc.Start invokes OnStartLoading event with
-            /// HSceneLoadingEventArgs
+            /// HSceneLoadingEventArgs main purpose is to provide pointers
+            /// to the HSceneProc module very early in the loading process
+            /// one case in a hook to HSceneProc.ChangeAnimator
             /// </summary>
             /// <param name="__instance">HSceneProc object instance</param>
             [HarmonyPrefix]
@@ -119,7 +121,6 @@ namespace IDHIUtils
         #endregion
 
         internal static Harmony _hsHookInstance;
-        //internal static Type _hSceneProcType;
 
         #region Properties
         /// <summary>
@@ -164,11 +165,6 @@ namespace IDHIUtils
                 Male = male;
             }
         }
-
-        //internal static void InvokeOnHSceneStartLoading(object _sender, EventArgs _args)
-        //{
-        //    OnStartLoading?.Invoke(_sender, _args);
-        //}
         #endregion
 
         #region Public Methods

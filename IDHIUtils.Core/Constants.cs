@@ -1,5 +1,5 @@
 ﻿//
-// Constants
+// Constants many enums from the game for reference
 //
 using System.Collections.Generic;
 
@@ -98,6 +98,110 @@ namespace IDHIUtils
     {
         Male = 0,
         Female = 1
+    }
+
+    public enum BodyShapeIdx
+    {
+        Height,
+        HeadSize,
+        NeckW,
+        NeckZ,
+        BustSize,
+        BustY,
+        BustRotX,
+        BustX,
+        BustRotY,
+        BustSharp,
+        BustForm,
+        AreolaBulge,
+        NipWeight,
+        NipStand,
+        BodyShoulderW,
+        BodyShoulderZ,
+        BodyUpW,
+        BodyUpZ,
+        BodyLowW,
+        BodyLowZ,
+        WaistY,
+        Belly,
+        WaistUpW,
+        WaistUpZ,
+        WaistLowW,
+        WaistLowZ,
+        Hip,
+        HipRotX,
+        ThighUpW,
+        ThighUpZ,
+        ThighLowW,
+        ThighLowZ,
+        KneeLowW,
+        KneeLowZ,
+        Calf,
+        AnkleW,
+        AnkleZ,
+        ShoulderW,
+        ShoulderZ,
+        ArmUpW,
+        ArmUpZ,
+        ElbowW,
+        ElbowZ,
+        ArmLow
+    }
+
+    public enum FaceShapeIdx
+    {
+        FaceBaseW,
+        FaceUpZ,
+        FaceUpY,
+        FaceUpSize,
+        FaceLowZ,
+        FaceLowW,
+        ChinLowY,
+        ChinLowZ,
+        ChinY,
+        ChinW,
+        ChinZ,
+        ChinTipY,
+        ChinTipZ,
+        ChinTipW,
+        CheekBoneW,
+        CheekBoneZ,
+        CheekW,
+        CheekZ,
+        CheekY,
+        EyebrowY,
+        EyebrowX,
+        EyebrowRotZ,
+        EyebrowInForm,
+        EyebrowOutForm,
+        EyelidsUpForm1,
+        EyelidsUpForm2,
+        EyelidsUpForm3,
+        EyelidsLowForm1,
+        EyelidsLowForm2,
+        EyelidsLowForm3,
+        EyeY,
+        EyeX,
+        EyeZ,
+        EyeTilt,
+        EyeH,
+        EyeW,
+        EyeInX,
+        EyeOutY,
+        NoseTipH,
+        NoseY,
+        NoseBridgeH,
+        MouthY,
+        MouthW,
+        MouthZ,
+        MouthUpForm,
+        MouthLowForm,
+        MouthCornerForm,
+        EarSize,
+        EarRotY,
+        EarRotZ,
+        EarUpForm,
+        EarLowForm
     }
     #endregion
 }

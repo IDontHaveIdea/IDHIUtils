@@ -104,28 +104,48 @@ namespace IDHIUtils
             _logSource = logSource;
         }
 
-        public void Info(object data, bool withCaller = false)
+        public void Info(object data)
         {
             if (_enabled)
             {
-                string logMessage;
+                _logSource.LogInfo($"{data}");
+            }
+        }
 
-                if (withCaller)
+        public void Info(object data, bool withCaller = false)
+        {
+            string logMessage;
+
+            if (withCaller)
+            {
+                // Get call stack
+                var stackTrace = new StackTrace();
+
+                // Get calling method name
+                var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
+
+                logMessage = $"Called by:[{calllingMethod}] {data}";
+            }
+            else
+            {
+                logMessage = $"{data}";
+            }
+
+            _logSource.LogInfo($"{logMessage}");
+        }
+
+        public void Debug(object data)
+        {
+            if (_enabled)
+            {
+                if (_debugToConsole)
                 {
-                    // Get call stack
-                    var stackTrace = new StackTrace();
-
-                    // Get calling method name
-                    var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
-
-                    logMessage = $"Called by:[{calllingMethod}] {data}";
+                    _logSource.LogInfo($"{data}");
                 }
                 else
                 {
-                    logMessage = $"{data}";
+                    _logSource.LogDebug($"{data}");
                 }
-
-                _logSource.LogInfo($"{logMessage}");
             }
         }
 
@@ -161,51 +181,84 @@ namespace IDHIUtils
             }
         }
 
-        public void Error(object data, bool withCaller = false)
+        public void Error(object data)
         {
-            string logMessage;
-
-            if (withCaller)
-            {
-                // Get call stack
-                var stackTrace = new StackTrace();
-
-                // Get calling method name
-                var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
-
-                logMessage = $"Called by:[{calllingMethod}] {data}";
-            }
-            else
-            {
-                logMessage = $"{data}";
-            }
             if (_enabled)
             {
+                _logSource.LogError($"{data}");
+            }
+        }
+
+        public void Error(object data, bool withCaller = false)
+        {
+            if (_enabled)
+            {
+                string logMessage;
+
+                if (withCaller)
+                {
+                    // Get call stack
+                    var stackTrace = new StackTrace();
+
+                    // Get calling method name
+                    var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
+
+                    logMessage = $"Called by:[{calllingMethod}] {data}";
+                }
+                else
+                {
+                    logMessage = $"{data}";
+                }
+                
                 _logSource.LogError($"{logMessage}");
+            }
+        }
+
+        public void Fatal(object data)
+        {
+            if (_enabled)
+            {
+                _logSource.LogFatal($"{data}");
             }
         }
 
         public void Fatal(object data, bool withCaller = false)
         {
-            string logMessage;
-
-            if (withCaller)
+            try
             {
-                // Get call stack
-                var stackTrace = new StackTrace();
+                if (_enabled)
+                {
+                    string logMessage;
 
-                // Get calling method name
-                var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
+                    if (withCaller)
+                    {
+                        // Get call stack
+                        var stackTrace = new StackTrace();
 
-                logMessage = $"Called by:[{calllingMethod}] {data}";
+                        // Get calling method name
+                        var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
+
+                        logMessage = $"Called by:[{calllingMethod}] {data}";
+                    }
+                    else
+                    {
+                        logMessage = $"{data}";
+                    }
+
+                    _logSource.LogFatal($"{logMessage}");
+                }
             }
-            else
+            catch (Exception e)
             {
-                logMessage = $"{data}";
+                Console.WriteLine($"[Fatal] Error: {e.Message}");
             }
+        }
+
+        public void Message(object data)
+        {
             if (_enabled)
             {
-                _logSource.LogFatal($"{logMessage}");
+                _logSource.LogMessage($"{data}");
             }
         }
 
@@ -230,6 +283,14 @@ namespace IDHIUtils
                     logMessage = $"{data}";
                 }
                 _logSource.LogMessage($"{logMessage}");
+            }
+        }
+
+        public void Warning(object data)
+        {
+            if (_enabled)
+            {
+                _logSource.LogWarning($"{data}");
             }
         }
 
@@ -263,43 +324,67 @@ namespace IDHIUtils
         /// </summary>
         /// <param name="level"></param>
         /// <param name="data"></param>
+        public void Level(LogLevel level, object data)
+        {
+            _logSource.Log(level, $"{data}");
+        }
+
+        /// <summary>
+        /// For logs that should not depend on the logs been enabled
+        /// </summary>
+        /// <param name="level"></param>
+        /// <param name="data"></param>
         public void Level(LogLevel level, object data, bool withCaller = false)
         {
-            string logMessage;
-
-            if (withCaller)
+            try
             {
-                // Get call stack
-                var stackTrace = new StackTrace();
+                string logMessage;
 
-                // Get calling method name
-                var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
+                if (withCaller)
+                {
+                    // Get call stack
+                    var stackTrace = new StackTrace();
 
-                logMessage = $"Called by:[{calllingMethod}] {data}";
+                    // Get calling method name
+                    var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
+
+                    logMessage = $"Called by:[{calllingMethod}] {data}";
+                }
+                else
+                {
+                    logMessage = $"{data}";
+                }
+
+                _logSource.Log(level, logMessage);
             }
-            else
+            catch (Exception e)
             {
-                logMessage = $"{data}";
+                Console.WriteLine($"[Level] Error: {e.Message}");
             }
-
-            _logSource.Log(level, logMessage);
         }
 
         public static void Special(object data)
         {
-            if (_specialLogFile)
+            try
             {
-                // Get call stack
-                var stackTrace = new StackTrace();
-
-                // Get calling method name
-                var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
-
-                if (_writer.BaseStream != null)
+                if (_specialLogFile)
                 {
-                    _writer.WriteLine($"Called by:[{calllingMethod}] {data}");
-                    _writer.Flush();
+                    // Get call stack
+                    var stackTrace = new StackTrace();
+
+                    // Get calling method name
+                    var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
+
+                    if (_writer.BaseStream != null)
+                    {
+                        _writer.WriteLine($"Called by:[{calllingMethod}] {data}");
+                        _writer.Flush();
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"[Special] Error: {e.Message}");
             }
         }
 
@@ -312,16 +397,23 @@ namespace IDHIUtils
         #region Private Methods
         private static void SetupLogFile()
         {
-            if (_writer == null)
+            try
             {
-                var logFilePath = Path.Combine(UserData.Path, "Logs");
-                var fileName = $"{logFilePath}/Special.log";
-                var logFileInfo = new FileInfo(fileName);
+                if (_writer == null)
+                {
+                    var logFilePath = Path.Combine(UserData.Path, "Logs");
+                    var fileName = $"{logFilePath}/Special.log";
+                    var logFileInfo = new FileInfo(fileName);
 
 
-                logFileInfo.Directory.Create();
-                _writer = new StreamWriter(fileName);
-                _specialLogFile = true;
+                    logFileInfo.Directory.Create();
+                    _writer = new StreamWriter(fileName);
+                    _specialLogFile = true;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"[SetupLogFile] Error: {e.Message}");
             }
         }
         #endregion
