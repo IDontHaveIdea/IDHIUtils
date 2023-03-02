@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿//
+// HPoint information during the H-Scene
+//
+using System.Collections.Generic;
 using System.Text;
 
 using UnityEngine;
-using MessagePack;
 
 using H;
 
@@ -25,7 +27,7 @@ namespace IDHIUtils
             [HarmonyPatch(typeof(HSceneProc), nameof(HSceneProc.GetCloseCategory))]
             private static void GetCloseCategoryPostfix(object __instance)
             {
-                _hProcObject = __instance;
+                //_hProcObject = __instance;
                 _hProcTraverse = Traverse.Create(__instance);
                 _closeHPointData = _hProcTraverse
                     .Field<List<HPointData>>("closeHpointData").Value;
@@ -52,7 +54,7 @@ namespace IDHIUtils
         #region private Fields
         private static Dictionary<Vector3, HPointData> _hPointDataPosition = new();
         private static Dictionary<string, HPointData> _hPointDataName = new();
-        private static object _hProcObject = null;
+        //private static object _hProcObject = null;
         private static Traverse _hProcTraverse = null;
         private static List<HPointData> _closeHPointData;
         #endregion
