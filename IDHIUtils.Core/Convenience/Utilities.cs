@@ -356,8 +356,15 @@ namespace IDHIUtils
             {
                 return npc.mapNo;
             }
-
+#if KKS
+            else
+            {
+                return GuideMapNumber(girl);
+            }
+#endif
+#if KK
             return (-1);
+#endif
         }
 
         /// <summary>
@@ -368,6 +375,7 @@ namespace IDHIUtils
         public static int MapNumber(ChaControl girl)
         {
             var heroine = girl.GetHeroine();
+
             if (heroine != null)
             {
                 return MapNumber(heroine);
@@ -376,6 +384,44 @@ namespace IDHIUtils
             return (-1);
         }
 
+#if KKS
+        public static int GuideMapNumber(SaveData.Heroine girl)
+        {
+            var guideMap = -1;
+
+            if (girl != null)
+            {
+                if (girl.fixCharaID == -13)
+                {
+                    if (Manager.Game.saveData.guideSetPositionMaps != null)
+                    {
+                        // TODO: Look for a better way to get this info hashes does not
+                        // have indexes.  There is only one element.
+                        foreach (var h in Manager.Game.saveData.guideSetPositionMaps)
+                        {
+                            if (Manager.Game.saveData.guideSetPositionMaps.Count == 1)
+                            {
+                                guideMap = h;
+                            }
+                        }
+                    }
+                }
+            }
+            return guideMap;
+        }
+
+        public static int GuideMapNumber(ChaControl girl)
+        {
+            var heroine = girl.GetHeroine();
+
+            if (heroine != null)
+            {
+                return GuideMapNumber(heroine);
+            }
+
+            return (-1);
+        }
+#endif
         /// <summary>
         /// Translate string returning same string if no translation found
         /// </summary>
@@ -497,6 +543,6 @@ namespace IDHIUtils
             var r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
             return r.Replace(filename, replaceChar);
         }
-        #endregion
+#endregion
     }
 }
