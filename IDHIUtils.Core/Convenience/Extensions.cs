@@ -81,6 +81,7 @@ namespace IDHIUtils
             return formatString;
         }
 
+        #region Heroine extensions
         /// <summary>
         /// Get map number where heroine is.
         /// </summary>
@@ -96,7 +97,9 @@ namespace IDHIUtils
 
             return -1;
         }
+        #endregion
 
+        #region ChaControl extensions
         /// <summary>
         /// Get map number where heroine is
         /// </summary>
@@ -112,5 +115,19 @@ namespace IDHIUtils
 
             return -1;
         }
+
+        public static int Height(this ChaControl self)
+        {
+            var result = (int)Math.Round(self.chaFile.custom.body
+                .shapeValueBody[(int)ChaFileDefine.BodyShapeIdx.Height] * 100);
+
+            return result;
+        }
+
+        public static float ShapeValueBody(this ChaControl self, ChaFileDefine.BodyShapeIdx shapeIdx)
+        {
+            return self.chaFile.custom.body.shapeValueBody[(int)shapeIdx];
+        }
+        #endregion
     }
 }
