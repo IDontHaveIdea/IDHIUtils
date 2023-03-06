@@ -16,7 +16,8 @@ using HarmonyLib;
 
 using KKAPI.Utilities;
 using KKAPI.MainGame;
-using ActionGame.Chara;
+//using ActionGame.Chara;
+
 
 namespace IDHIUtils
 {
@@ -366,7 +367,7 @@ namespace IDHIUtils
             return (-1);
         }
 
-        public static int MapNumber(NPC girl)
+        public static int MapNumber(ActionGame.Chara.NPC girl)
         {
             if (girl != null)
             {
@@ -396,21 +397,21 @@ namespace IDHIUtils
         {
             var guideMap = -1;
 
-            if (girl != null)
+            if ((girl != null) && (girl.fixCharaID == -13))
             {
-                if (girl.fixCharaID == -13)
+                var fixChara = girl.charaBase as ActionGame.Chara.Fix;
+                if (fixChara != null)
                 {
-                    var fixChara = girl.charaBase as ActionGame.Chara.Fix;
-                    if (fixChara != null)
+                    var mapMove = fixChara.charaData.moveData.mapNo;
+                    var mapFix = fixChara.mapNo;
+                    guideMap = mapMove;
+                    if ((mapMove <= 0) && (mapFix != 0))
                     {
-                        guideMap = fixChara.mapNo;
-                        if (guideMap <= 0)
-                        {
-                            guideMap = fixChara.charaData.moveData.mapNo;
-                        }
+                        guideMap = mapFix;
                     }
                 }
             }
+            
             return guideMap;
         }
 
