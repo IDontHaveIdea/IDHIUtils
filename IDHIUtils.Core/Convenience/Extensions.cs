@@ -89,13 +89,24 @@ namespace IDHIUtils
         /// <returns></returns>
         public static int MapNumber(this SaveData.Heroine self)
         {
+#if KKS
+            // This is the guide
+            if (self.fixCharaID == -13)
+            {
+                return Utilities.GuideMapNumber(self);
+            }
+#endif
             var nPC = self.GetNPC();
             if (nPC != null)
             {
                 return nPC.mapNo;
             }
+            return (-1);
+        }
 
-            return -1;
+        public static int Height(this SaveData.Heroine self)
+        {
+            return Height(self.chaCtrl);
         }
         #endregion
 
@@ -124,7 +135,9 @@ namespace IDHIUtils
             return result;
         }
 
-        public static float ShapeValueBody(this ChaControl self, ChaFileDefine.BodyShapeIdx shapeIdx)
+        public static float ShapeValueBody(
+            this ChaControl self,
+            ChaFileDefine.BodyShapeIdx shapeIdx)
         {
             return self.chaFile.custom.body.shapeValueBody[(int)shapeIdx];
         }

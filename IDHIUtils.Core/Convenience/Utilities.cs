@@ -16,7 +16,7 @@ using HarmonyLib;
 
 using KKAPI.Utilities;
 using KKAPI.MainGame;
-
+using ActionGame.Chara;
 
 namespace IDHIUtils
 {
@@ -350,21 +350,29 @@ namespace IDHIUtils
         /// <returns>Map number if found -1 if not</returns>
         public static int MapNumber(SaveData.Heroine girl)
         {
+#if KKS
+            // This is the KKS guide
+            if (girl.fixCharaID == -13)
+            {
+                return GuideMapNumber(girl);
+            }
+#endif
             var npc = girl.GetNPC();
 
             if (npc != null)
             {
                 return npc.mapNo;
             }
-#if KKS
-            else
-            {
-                return GuideMapNumber(girl);
-            }
-#endif
-#if KK
             return (-1);
-#endif
+        }
+
+        public static int MapNumber(NPC girl)
+        {
+            if (girl != null)
+            {
+                return girl.mapNo;
+            }
+            return (-1);
         }
 
         /// <summary>
@@ -380,7 +388,6 @@ namespace IDHIUtils
             {
                 return MapNumber(heroine);
             }
-
             return (-1);
         }
 
@@ -393,16 +400,13 @@ namespace IDHIUtils
             {
                 if (girl.fixCharaID == -13)
                 {
-                    if (Manager.Game.saveData.guideSetPositionMaps != null)
+                    var fixChara = girl.charaBase as ActionGame.Chara.Fix;
+                    if (fixChara != null)
                     {
-                        // TODO: Look for a better way to get this info hashes does not
-                        // have indexes.  There is only one element.
-                        foreach (var h in Manager.Game.saveData.guideSetPositionMaps)
+                        guideMap = fixChara.mapNo;
+                        if (guideMap <= 0)
                         {
-                            if (Manager.Game.saveData.guideSetPositionMaps.Count == 1)
-                            {
-                                guideMap = h;
-                            }
+                            guideMap = fixChara.charaData.moveData.mapNo;
                         }
                     }
                 }
@@ -523,7 +527,8 @@ namespace IDHIUtils
 
         public static string CleanFileName4(string filename)
         {
-            return new string(filename.Except(System.IO.Path.GetInvalidFileNameChars()).ToArray());
+            return new string(filename
+                .Except(System.IO.Path.GetInvalidFileNameChars()).ToArray());
         }
 
         public static string CleanFileName5(string filename)
@@ -537,9 +542,12 @@ namespace IDHIUtils
             return file;
         }
 
-        public static string RemoveInvalidFilePathCharacters(string filename, string replaceChar)
+        public static string RemoveInvalidFilePathCharacters(
+            string filename,
+            string replaceChar)
         {
-            var regexSearch = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+            var regexSearch = new string(
+                Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
             var r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
             return r.Replace(filename, replaceChar);
         }
