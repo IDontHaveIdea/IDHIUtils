@@ -16,6 +16,7 @@ using HarmonyLib;
 
 using KKAPI.Utilities;
 using KKAPI.MainGame;
+using System.Drawing.Drawing2D;
 //using ActionGame.Chara;
 
 
@@ -403,11 +404,17 @@ namespace IDHIUtils
                 if (fixChara != null)
                 {
                     var mapMove = fixChara.charaData.moveData.mapNo;
-                    var mapFix = fixChara.mapNo;
-                    guideMap = mapMove;
-                    if ((mapMove <= 0) && (mapFix != 0))
+                    guideMap = fixChara.mapNo;
+                    if ((guideMap <= 0)
+                        && (Manager.Game.saveData.guideSetPositionMaps.Count == 1))
                     {
-                        guideMap = mapFix;
+                        guideMap = Manager.Game.saveData.guideSetPositionMaps
+                            .ToList()
+                            .FirstOrDefault();
+                    }
+                    else if ((mapMove > 0) && (guideMap <= 0))
+                    {
+                        guideMap = mapMove;
                     }
                 }
             }
