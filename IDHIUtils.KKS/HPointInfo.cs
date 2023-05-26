@@ -2,7 +2,7 @@
 // HPoint information during the H-Scene
 //
 // Ignore Spelling: Utils
-/*
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +18,6 @@ using HarmonyLib;
 
 namespace IDHIUtils
 {
-#if KKS
     public partial class HPointInfo
     {
         #region classes
@@ -37,17 +36,13 @@ namespace IDHIUtils
                 _closeHPointData = _hProcTraverse
                     .Field<List<HPointData>>("closeHpointData").Value;
                 InitialPosition =
-                    _hProcTraverse.Field<OpenHData.Data>("dataH").Value.position;
+                    _hProcTraverse.Field<Vector3>("initPos").Value;
                 InitialRotation =
-                    _hProcTraverse.Field<OpenHData.Data>("dataH").Value.rotation;
-#if KKS
+                    _hProcTraverse.Field<Quaternion>("initRot").Value;
                 InitialNowPosition =
                     _hProcTraverse.Field<Vector3>("nowHpointDataPos").Value;
-#else
-                InitialPosition =
-                    _hProcTraverse.Field<OpenHData.Data>("dataH").Value.position;
-                InitialPositionName = "HPointBase";
-#endif
+                InitialPositionName =
+                    _hProcTraverse.Field<string>("nowHpointData").Value;
 
                 _hPointDataPosition.Clear();
                 _hPointDataName.Clear();
@@ -71,7 +66,7 @@ namespace IDHIUtils
         private static readonly Dictionary<string, HPointData> _hPointDataName = new();
         private static Traverse _hProcTraverse = null;
         private static List<HPointData> _closeHPointData;
-        private static List<HPointData> _lstHPointData = new();
+        //private static List<HPointData> _lstHPointData = new();
         #endregion
 
         #region Properties
@@ -109,15 +104,15 @@ namespace IDHIUtils
             var lines = new StringBuilder();
             lines.Clear();
 
-            lines.Append($"Initial position name={InitialPositionName} position=" +
-                $"{InitialPosition}\n");
+            lines.Append($"Initial position name={InitialPositionName} nowPosition={InitialNowPosition.Format()} position=" +
+                $"{InitialPosition.Format()} rotation={InitialRotation.Format()}\n");
             foreach (var hpointData in hPointData)
             {
                 lines.Append($"Name: {hpointData.name} " +
-                    $"position={hpointData.transform.position} " +
-                    $"rotation={hpointData.transform.rotation} " +
-                    $"angles={hpointData.transform.eulerAngles} " +
-                    $"backup position={hpointData.backupPos} ");
+                    $"position={hpointData.transform.position.Format()} " +
+                    $"rotation={hpointData.transform.rotation.Format()} " +
+                    $"angles={hpointData.transform.eulerAngles.Format()} " +
+                    $"backup position={hpointData.backupPos.Format()} ");
                 lines.Append($"categorys=" +
                     $"{Utilities.CategoryList(hpointData.category, names: true)}\n");
             }
@@ -133,7 +128,7 @@ namespace IDHIUtils
         {
             var name = "Unknown";
 
-            if (position == InitialPosition)
+            if (position == InitialNowPosition)
             {
                 return InitialPositionName;
             }
@@ -162,6 +157,41 @@ namespace IDHIUtils
             return position;
         }
 
+        public static Quaternion GetRotation(string name)
+        {
+            var rotation = new Quaternion(-1, -1, -1, -1);
+
+            if (name == InitialPositionName)
+            {
+                return InitialRotation;
+            }
+
+            if (HPointByName.TryGetValue(name, out var hPoint))
+            {
+                return hPoint.transform.rotation;
+            }
+
+            return rotation;
+        }
+
+        public static Quaternion GetRotation(Vector3 position)
+        {
+            var rotation = new Quaternion(-1, -1, -1, -1);
+
+            if (position == InitialPosition)
+            {
+                return InitialRotation;
+            }
+
+            if (HPointByPosition.TryGetValue(position, out var hPoint))
+            {
+                return hPoint.transform.rotation;
+            }
+
+            return rotation;
+        }
+
+        /*
         private static void HPointDataList(object __instance)
         {
             #region get needed fields using reflection
@@ -234,7 +264,6 @@ namespace IDHIUtils
                 }
             }
         }
+        */
     }
-#endif
 }
-*/
