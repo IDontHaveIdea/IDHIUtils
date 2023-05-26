@@ -3,6 +3,8 @@
 // Permits that interact during H-Scene plug-ins to start disabled and changed to
 // enabled status when the H-Scene loads.
 //
+// Ignore Spelling: Utils Kuuhou Nakadashi
+
 using System;
 using System.Collections.Generic;
 

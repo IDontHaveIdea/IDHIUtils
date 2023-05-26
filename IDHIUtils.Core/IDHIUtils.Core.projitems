@@ -12,7 +12,10 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\lookuptexture.png" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AnimationLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)convenience\Utilities.Map.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)convenience\Utilities.Move.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities.Init.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Plugins\AnimationLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ButtonInterfaces.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
@@ -22,13 +25,17 @@
     <Compile Include="$(MSBuildThisFileDirectory)HProcMonitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HSceneProcTraverse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Convenience\Utiliies.Scenes.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MoreOutfits.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Convenience\Utilities.Scenes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Plugins\MoreOutfits.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin.ConfigEntries.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin.Info.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)plugins\Pregnancy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SvgColor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Convenience\Utilities.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Plugins\" />
   </ItemGroup>
 </Project>

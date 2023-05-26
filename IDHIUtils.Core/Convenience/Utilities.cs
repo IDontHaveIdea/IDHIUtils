@@ -16,6 +16,8 @@ using HarmonyLib;
 
 using KKAPI.Utilities;
 using KKAPI.MainGame;
+using System.Drawing.Drawing2D;
+//using ActionGame.Chara;
 
 
 namespace IDHIUtils
@@ -343,38 +345,6 @@ namespace IDHIUtils
             return quotes ? "\" { " + tmp + " }\"" : "{ " + tmp + " }";
         }
 
-        /// <summary>
-        /// Try to find map number
-        /// </summary>
-        /// <param name="girl"></param>
-        /// <returns>Map number if found -1 if not</returns>
-        public static int MapNumber(SaveData.Heroine girl)
-        {
-            var npc = girl.GetNPC();
-
-            if (npc != null)
-            {
-                return npc.mapNo;
-            }
-
-            return (-1);
-        }
-
-        /// <summary>
-        /// Overload MapNumber
-        /// </summary>
-        /// <param name="girl"></param>
-        /// <returns>Map number if found -1 if not</returns>
-        public static int MapNumber(ChaControl girl)
-        {
-            var heroine = girl.GetHeroine();
-            if (heroine != null)
-            {
-                return MapNumber(heroine);
-            }
-
-            return (-1);
-        }
 
         /// <summary>
         /// Translate string returning same string if no translation found
@@ -415,7 +385,7 @@ namespace IDHIUtils
         /// <param name="frame">frame number</param>
         /// <param name="longInfo">true for long name false name only</param>
         /// <returns></returns>
-        public static string CallingMethod(int frame = 2, bool longInfo = false, bool writeTrace = false)
+        /*public static string CallingMethod(int frame = 2, bool longInfo = false, bool writeTrace = false)
         {
             // Get call stack
             var st = new StackTrace();
@@ -430,7 +400,40 @@ namespace IDHIUtils
                     Console.WriteLine();
                     Console.WriteLine($"i={i} High up the call stack, Method: {sf.GetMethod()}");
 
-                    Console.WriteLine($"i={i} High up the call stack, Line Number: {sf.GetFileLineNumber()}");
+                    //Console.WriteLine($"i={i} High up the call stack, Line Number: {sf.GetFileLineNumber()}");
+                }
+            }
+
+            return longInfo ? $"{st.GetFrame(frame).GetMethod()}"
+                : st.GetFrame(frame).GetMethod().Name;
+        }*/
+
+        public static string CallingMethod(
+            int frame = 2,
+            bool longInfo = false,
+            bool writeTrace = false,
+            int maxTraceFrame = -1)
+        {
+            // Get call stack
+            var st = new StackTrace();
+
+            if (writeTrace)
+            {
+                for (var i = 0; i < st.FrameCount; i++)
+                {
+                    // Note that high up the call stack, there is only
+                    // one stack frame.
+                    var sf = st.GetFrame(i);
+                    Console.WriteLine();
+                    Console.WriteLine($"i={i} High up the call stack, Method: {sf.GetMethod()}");
+                    if (maxTraceFrame >= 0)
+                    {
+                        if (i >= maxTraceFrame)
+                        {
+                            return "";
+                        }
+                    }
+                    //Console.WriteLine($"i={i} High up the call stack, Line Number: {sf.GetFileLineNumber()}");
                 }
             }
 
@@ -477,7 +480,8 @@ namespace IDHIUtils
 
         public static string CleanFileName4(string filename)
         {
-            return new string(filename.Except(System.IO.Path.GetInvalidFileNameChars()).ToArray());
+            return new string(filename
+                .Except(System.IO.Path.GetInvalidFileNameChars()).ToArray());
         }
 
         public static string CleanFileName5(string filename)
@@ -491,12 +495,15 @@ namespace IDHIUtils
             return file;
         }
 
-        public static string RemoveInvalidFilePathCharacters(string filename, string replaceChar)
+        public static string RemoveInvalidFilePathCharacters(
+            string filename,
+            string replaceChar)
         {
-            var regexSearch = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+            var regexSearch = new string(
+                Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
             var r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
             return r.Replace(filename, replaceChar);
         }
-        #endregion
+#endregion
     }
 }

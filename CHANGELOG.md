@@ -8,6 +8,12 @@
 
 ### Fixed
 
+## <u>v1.0.6.2 0 2020-11-03</u>
+
+### Fixed
+
+- Correctly determine the map number the Guide is in.
+
 ## <u>v1.0.6.0 - 2022-11-03</u>
 
 ### Added

@@ -82,21 +82,58 @@ namespace IDHIUtils
         }
 
         /// <summary>
+        /// Adjust move vector to transform vector. In Unity when using transform and
+        /// moving forward sometimes is along the X axis instead of Z (Why?) vector
+        /// representing a move are in the form (right, up, forward) this adjust the
+        /// vector to the game transform
+        /// </summary>
+        /// <param name="self">object self reference</param>
+        /// <param name="transform">character Transform</param>
+        /// <returns></returns>
+        public static Vector3 MovementTransform(this Vector3 self, Transform transform)
+        {
+            var result = new Vector3(0, 0, 0);
+
+            // sides move
+            result += transform.right * self.x;
+            // up/down move
+            result += transform.up * self.y;
+            // forward/backward move
+            result += transform.forward * self.z;
+
+            return result;
+        }
+
+        #region Heroine extensions
+        /// <summary>
         /// Get map number where heroine is.
         /// </summary>
         /// <param name="self">Reference to Heroine object</param>
         /// <returns></returns>
         public static int MapNumber(this SaveData.Heroine self)
         {
+#if KKS
+            // This is the guide
+            if (self.fixCharaID == -13)
+            {
+                return Utilities.GuideMapNumber(self);
+            }
+#endif
             var nPC = self.GetNPC();
             if (nPC != null)
             {
                 return nPC.mapNo;
             }
-
-            return -1;
+            return (-1);
         }
 
+        public static int Height(this SaveData.Heroine self)
+        {
+            return Height(self.chaCtrl);
+        }
+        #endregion
+
+        #region ChaControl extensions
         /// <summary>
         /// Get map number where heroine is
         /// </summary>
@@ -112,5 +149,21 @@ namespace IDHIUtils
 
             return -1;
         }
+
+        public static int Height(this ChaControl self)
+        {
+            var result = (int)Math.Round(self.chaFile.custom.body
+                .shapeValueBody[(int)ChaFileDefine.BodyShapeIdx.Height] * 100);
+
+            return result;
+        }
+
+        public static float ShapeValueBody(
+            this ChaControl self,
+            ChaFileDefine.BodyShapeIdx shapeIdx)
+        {
+            return self.chaFile.custom.body.shapeValueBody[(int)shapeIdx];
+        }
+        #endregion
     }
 }

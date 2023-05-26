@@ -46,6 +46,13 @@ namespace IDHIUtils
                     .GetValue<string>();
         }
 
+        public string GetCoordinateName(
+            ChaControl chaControl,
+            ChaFileDefine.CoordinateType coordinate)
+        {
+            return GetCoordinateName(chaControl, coordinate);
+        }
+
         public Dictionary<int, string> CoordinateNames(ChaControl chaControl)
         {
             return CoordinateNames(GetController(chaControl));
