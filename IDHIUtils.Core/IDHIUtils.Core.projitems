@@ -13,6 +13,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)convenience\Utilities.Map.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)convenience\Utilities.Move.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities.Init.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugins\AnimationLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animations.cs" />
