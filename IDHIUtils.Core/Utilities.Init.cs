@@ -1,23 +1,7 @@
 //
 // Utilities
 //
-using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-
-using UnityEngine;
-
-using BepInEx;
-using HarmonyLib;
-
-using KKAPI.Utilities;
-using KKAPI.MainGame;
-using System.Drawing.Drawing2D;
-//using ActionGame.Chara;
+// Ignore Spelling: Utils
 
 
 namespace IDHIUtils
@@ -33,9 +17,9 @@ namespace IDHIUtils
 #if KKS
             HPointInfo.Init();
             MakerInfo.Init();
+            Maps.Init();
 #endif
             HProcMonitor.Init();
-            Maps.Init();
         }
     }
 }
