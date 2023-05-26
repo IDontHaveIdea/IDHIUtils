@@ -385,7 +385,7 @@ namespace IDHIUtils
         /// <param name="frame">frame number</param>
         /// <param name="longInfo">true for long name false name only</param>
         /// <returns></returns>
-        public static string CallingMethod(int frame = 2, bool longInfo = false, bool writeTrace = false)
+        /*public static string CallingMethod(int frame = 2, bool longInfo = false, bool writeTrace = false)
         {
             // Get call stack
             var st = new StackTrace();
@@ -400,7 +400,40 @@ namespace IDHIUtils
                     Console.WriteLine();
                     Console.WriteLine($"i={i} High up the call stack, Method: {sf.GetMethod()}");
 
-                    Console.WriteLine($"i={i} High up the call stack, Line Number: {sf.GetFileLineNumber()}");
+                    //Console.WriteLine($"i={i} High up the call stack, Line Number: {sf.GetFileLineNumber()}");
+                }
+            }
+
+            return longInfo ? $"{st.GetFrame(frame).GetMethod()}"
+                : st.GetFrame(frame).GetMethod().Name;
+        }*/
+
+        public static string CallingMethod(
+            int frame = 2,
+            bool longInfo = false,
+            bool writeTrace = false,
+            int maxTraceFrame = -1)
+        {
+            // Get call stack
+            var st = new StackTrace();
+
+            if (writeTrace)
+            {
+                for (var i = 0; i < st.FrameCount; i++)
+                {
+                    // Note that high up the call stack, there is only
+                    // one stack frame.
+                    var sf = st.GetFrame(i);
+                    Console.WriteLine();
+                    Console.WriteLine($"i={i} High up the call stack, Method: {sf.GetMethod()}");
+                    if (maxTraceFrame >= 0)
+                    {
+                        if (i >= maxTraceFrame)
+                        {
+                            return "";
+                        }
+                    }
+                    //Console.WriteLine($"i={i} High up the call stack, Line Number: {sf.GetFileLineNumber()}");
                 }
             }
 
