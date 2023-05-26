@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 
 using ActionGame;
+using H;
 
 using HarmonyLib;
 
@@ -51,6 +52,8 @@ namespace IDHIUtils
                     .Field<HitCollisionEnableCtrl>("hitcollisionMale").Value;
         public Vector3 initPos => Traverse
                     .Field<Vector3>("initPos").Value;
+        public Quaternion initRot => Traverse
+                    .Field<Quaternion>("initRot").Value;
         public Lookat_dan lookDan => Traverse
                     .Field<Lookat_dan>("lookDan").Value;
         public Lookat_dan lookDan1 => Traverse
@@ -114,6 +117,8 @@ namespace IDHIUtils
         public ShuffleRand[] voicePlayShuffle => Traverse
                     .Field<ShuffleRand[]>("voicePlayShuffle").Value;
 #if KKS
+        public List<HPointData> closeHpointData => Traverse
+                    .Field<List<HPointData>>("closeHpointData").Value;
         public ObiCtrl ctrlObi => Traverse
                     .Field<ObiCtrl>("ctrlObi").Value;
         public HMotionEyeNeckFemale eyeneckFemale => Traverse
