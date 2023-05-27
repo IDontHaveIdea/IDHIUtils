@@ -430,7 +430,7 @@ namespace IDHIUtils
                     {
                         if (i >= maxTraceFrame)
                         {
-                            return "";
+                            break;
                         }
                     }
                     //Console.WriteLine($"i={i} High up the call stack, Line Number: {sf.GetFileLineNumber()}");
