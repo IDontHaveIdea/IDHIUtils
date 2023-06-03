@@ -191,6 +191,67 @@ namespace IDHIUtils
             return rotation;
         }
 
+        public static Vector3? GetClosestPosition(Vector3 position)
+        {
+            try
+            {
+                // Get closest HPoint to position
+                var result = _hPointDataPosition
+                    .OrderBy(i => (i.Key - position).magnitude)
+                    .ToList()
+                    .FirstOrDefault().Key;
+
+                var point = _hPointDataPosition[result];
+
+                var d1 = (point.transform.position - position).magnitude;
+                var d2 = (InitialPosition - position).magnitude;
+
+                // Is initial position closer?
+                if (d2 < d1)
+                {
+                    return InitialPosition;
+                }
+
+                return result;
+            }
+            catch
+            {
+            }
+
+            return null;
+        }
+
+        public static string GetClosestName(Vector3 position)
+        {
+            try
+            {
+                // Get closest HPoint to position
+                var result = _hPointDataPosition
+                    .OrderBy(i => (i.Key - position).magnitude)
+                    .ToList()
+                    .FirstOrDefault().Key;
+
+                var point = _hPointDataPosition[result];
+
+                var d1 = (point.transform.position - position).magnitude;
+                var d2 = (InitialPosition - position).magnitude;
+
+                // Is initial position closer?
+                if (d2 < d1)
+                {
+                    return InitialPositionName;
+                }
+
+                return point.name;
+            }
+            catch
+            {
+            }
+
+            return "Unknown";
+        }
+
+
         /*
         private static void HPointDataList(object __instance)
         {
