@@ -1,6 +1,8 @@
 ﻿//
 // Constants many enums from the game for reference
 //
+// Ignore Spelling: Utils Siru
+
 using System.Collections.Generic;
 
 namespace IDHIUtils
@@ -56,7 +58,6 @@ namespace IDHIUtils
         Rotor = 1017,
         LesbianLieDown = 1100,
         LesbianChair = 1101,
-        LesbianStand = 1102,
         Groping = 1102,
         StraddleBench = 1200,
         SofaCowgirl = 1201,
