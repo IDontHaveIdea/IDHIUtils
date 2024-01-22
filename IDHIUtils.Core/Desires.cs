@@ -1,3 +1,5 @@
+// Ignore Spelling: Utils
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +14,12 @@ namespace IDHIUtils
 {
     public static class Desires
     {
-        private static Game _gameManager;
+        //private static Game _gameManager;
         
         public static Dictionary<DesireType, int> GetDesires(SaveData.Heroine heroine)
         {
             var actCtrl = SingletonInitializer<ActionScene>.instance.actCtrl;
-            Dictionary<DesireType, int> dictDesire = new();
+            Dictionary<DesireType, int> dictDesire = [];
 
             if (actCtrl != null)
             {

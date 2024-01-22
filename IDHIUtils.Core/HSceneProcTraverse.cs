@@ -150,19 +150,19 @@ namespace IDHIUtils
 
         public Traverse TCheckExpAddTaii => Traverse
                     .Method("CheckExpAddTaii",
-                      new Type[] { typeof(int), typeof(int), typeof(float) });
+                      [typeof(int), typeof(int), typeof(float)]);
         public Traverse TCheckShopAdd => Traverse
                     .Method("CheckShopAdd",
-                        new Type[] { typeof(HashSet<int>), typeof(int), typeof(int) });
+                        [typeof(HashSet<int>), typeof(int), typeof(int)]);
         public Traverse TSetLocalPosition => Traverse
                     .Method("SetLocalPosition",
-                        new Type[] { typeof(AnimationListInfo) });
+                        [typeof(AnimationListInfo)]);
         public Traverse TSetBoneOffset => Traverse
                     .Method("SetBoneOffset",
-                        new Type[] { typeof(AnimationListInfo), typeof(AnimationListInfo) });
+                        [typeof(AnimationListInfo), typeof(AnimationListInfo)]);
         public Traverse TCalcParameter => Traverse
                     .Method("CalcParameter",
-                        new Type[] { typeof(HScene.AddParameter) });
+                        [typeof(HScene.AddParameter)]);
 
         #endregion Properties
 
