@@ -1,6 +1,8 @@
 ﻿//
 // Extensions
 //
+// Ignore Spelling: Utils
+
 using System;
 
 using UnityEngine;
