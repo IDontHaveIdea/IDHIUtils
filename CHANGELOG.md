@@ -1,12 +1,15 @@
 # Changelog
 
-## <u>(Unrelease)</u>
+## <u>v1.0.7.0</u>
 
 ### Added
+- Code related to the guide like get the map where the guide is.
 
 ### Changed
+- HPointInfo code move to KKS causing problems in KK
 
 ### Fixed
+- Correctly determine where the guide is.
 
 ## <u>v1.0.6.2 0 2020-11-03</u>
 
