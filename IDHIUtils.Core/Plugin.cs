@@ -28,8 +28,8 @@ namespace IDHIUtils
         private void Awake()
         {
             _Log.LogSource = base.Logger;
-            _Log.Level(LogLevel.Info, $"[{IDHIUtilsInfo.PlugInName}] " +
-                $"{IDHIUtilsInfo.PlugInDisplayName} loaded.");
+            _Log.Level(LogLevel.Info, $"[{IDHIUtilsInfo.PluginName}] " +
+                $"{IDHIUtilsInfo.PluginDisplayName} loaded.");
             ConfigEntries();
             _Log.Enabled = DebugInfo.Value;
             _Log.DebugToConsole = DebugToConsole.Value;

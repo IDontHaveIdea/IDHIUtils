@@ -1,4 +1,6 @@
-﻿// Ignore Spelling: Utils Plugin
+﻿//
+// Plugin.Info.cs
+//
 
 using System;
 using System.Reflection;
@@ -9,8 +11,8 @@ using IDHIUtils;
 /*
  * These attributes define various meta-information of the generated DLL.
  */
-[assembly: AssemblyTitle(Constants.Prefix + "_" + IDHIUtilsInfo.PlugInName + " (" + IDHIUtilsInfo.GUID + ")")]
-[assembly: AssemblyProduct(Constants.Prefix + "_" + IDHIUtilsInfo.PlugInName)]
+[assembly: AssemblyTitle(Constants.Prefix + "_" + IDHIUtilsInfo.PluginName + " (" + IDHIUtilsInfo.GUID + ")")]
+[assembly: AssemblyProduct(Constants.Prefix + "_" + IDHIUtilsInfo.PluginName)]
 [assembly: AssemblyVersion(IDHIUtilsInfo.Version)]
 [assembly: AssemblyFileVersion(IDHIUtilsInfo.Version)]
 #endregion Assembly attributes
@@ -43,11 +45,11 @@ namespace IDHIUtils
         public const string GUID = "com.ihavenoidea.idhiutils";
         public const string Version = "1.0.6.0";
 #if DEBUG
-        public const string PlugInDisplayName = "IDHI Utilities (Debug)";
+        public const string PluginDisplayName = "IDHI Utilities (Debug)";
 #else
-        public const string PlugInDisplayName = "IDHI Utilities";
+        public const string PluginDisplayName = "IDHI Utilities";
 #endif
-        public const string PlugInName = "IDHIUtils";
+        public const string PluginName = "IDHIUtils";
         #endregion
     }
 
