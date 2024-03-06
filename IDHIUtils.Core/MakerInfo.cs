@@ -66,6 +66,8 @@ interfaces are being implemented, and the interface methods and properties shoul
 grouped together - then use a partial class to group the related methods and properties
 together.
  */
+// Ignore Spelling: Utils
+
 using UnityEngine.SceneManagement;
 
 

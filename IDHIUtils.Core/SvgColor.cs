@@ -195,6 +195,7 @@ namespace IDHIUtils
         public SvgColor(bool useLut = true)
         {
             _useLut = useLut;
+            Init();
         }
         #endregion
 
@@ -231,6 +232,16 @@ namespace IDHIUtils
             var pixel = _lut.GetPixel((int)(num6 * 512f), (int)(num7 * 512f));
             var pixel2 = _lut.GetPixel((int)(num8 * 512f), (int)(num9 * 512f));
             return Color.Lerp(pixel, pixel2, Mathf.Repeat(num, 1f));
+        }
+
+        public static string RGBHexString(Color color)
+        {
+            return $"#{color.r:x2}{color.g:x2}{color.b:x2}"; ;
+        }
+
+        public static string RGBAHexString(Color color)
+        {
+            return $"#{color.r:x2}{color.g:x2}{color.b:x2}{color.a:x2}"; ;
         }
         #endregion
 

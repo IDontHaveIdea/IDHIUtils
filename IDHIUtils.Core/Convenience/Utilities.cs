@@ -1,6 +1,8 @@
 ﻿//
 // Utilities
 //
+// Ignore Spelling: Utils
+
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -15,9 +17,6 @@ using BepInEx;
 using HarmonyLib;
 
 using KKAPI.Utilities;
-using KKAPI.MainGame;
-using System.Drawing.Drawing2D;
-//using ActionGame.Chara;
 
 
 namespace IDHIUtils
@@ -72,7 +71,7 @@ namespace IDHIUtils
                     {
                         _pluginGUID = value;
                         _traverse = null;
-                        GetPluginInfo();
+                        GetPlugInInfo();
                     }
                 }
             }
@@ -90,7 +89,7 @@ namespace IDHIUtils
             {
                 _pluginGUID = gID;
                 _traverse = null;
-                GetPluginInfo();
+                GetPlugInInfo();
             }
             #endregion
 
@@ -115,7 +114,7 @@ namespace IDHIUtils
                 return null;
             }
 
-            protected void GetPluginInfo()
+            protected void GetPlugInInfo()
             {
                 BepInEx.Bootstrap.Chainloader.PluginInfos
                     .TryGetValue(_pluginGUID, out var PInfo);
@@ -430,7 +429,7 @@ namespace IDHIUtils
                     {
                         if (i >= maxTraceFrame)
                         {
-                            return "";
+                            break;
                         }
                     }
                     //Console.WriteLine($"i={i} High up the call stack, Line Number: {sf.GetFileLineNumber()}");

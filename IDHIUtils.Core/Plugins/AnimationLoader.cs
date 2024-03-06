@@ -36,7 +36,7 @@ namespace IDHIUtils
             }
 
             return Traverse.Method("GetAnimationKey",
-                new Type[] { typeof(HSceneProc.AnimationListInfo) })?
+                [typeof(HSceneProc.AnimationListInfo)])?
                     .GetValue<string>(anim);
         }
 
@@ -48,7 +48,7 @@ namespace IDHIUtils
             }
 
             return Traverse.Method("GetAnimationMovement",
-                new Type[] { typeof(HSceneProc.AnimationListInfo) })?
+                [typeof(HSceneProc.AnimationListInfo)])?
                 .GetValue<List<Vector3>>(anim);
         }
 
@@ -60,7 +60,7 @@ namespace IDHIUtils
             }
 
             return Traverse.Method("Controllers",
-                new Type[] { typeof(HSceneProc.AnimationListInfo) })?
+                [typeof(HSceneProc.AnimationListInfo)])?
                 .GetValue<List<string>>(anim);
         }
 
@@ -71,7 +71,7 @@ namespace IDHIUtils
                 return;
             }
 
-            Traverse.Method("LoadTestXml", new Type[] { })?.GetValue();
+            Traverse.Method("LoadTestXml", [])?.GetValue();
         }
     }
 }

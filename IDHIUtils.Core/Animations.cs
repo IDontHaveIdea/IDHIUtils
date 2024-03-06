@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿// Ignore Spelling: Utils Anim Taii
+
+using System.Collections.Generic;
 
 using HarmonyLib;
+
 
 namespace IDHIUtils
 {
@@ -27,13 +30,13 @@ namespace IDHIUtils
         /// <summary>
         /// Get experience needed for position
         /// </summary>
-        /// <param name="hsceneProc"></param>
+        /// <param name="hSceneProc"></param>
         /// <param name="mode"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static int GetExpTaii(object hsceneProc, int mode, int id)
+        public static int GetExpTaii(object hSceneProc, int mode, int id)
         {
-            var hsceneTraverse = Traverse.Create(hsceneProc);
+            var hsceneTraverse = Traverse.Create(hSceneProc);
             var dicExpAddTaii = hsceneTraverse
                 .Field<Dictionary<int, Dictionary<int, int>>>("dicExpAddTaii").Value;
 

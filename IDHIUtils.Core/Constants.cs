@@ -1,6 +1,8 @@
 ﻿//
 // Constants many enums from the game for reference
 //
+// Ignore Spelling: Utils Siru
+
 using System.Collections.Generic;
 
 namespace IDHIUtils
@@ -16,7 +18,66 @@ namespace IDHIUtils
     }
     #endregion
 
-    #region enums
+    #region enum Definitions
+    public enum DesireType
+    {
+        None = -1,
+        ChangeClothes = 0,
+        GoToToilet = 1,
+        TakeShower = 2,
+        HaveMeal = 3,
+        HMasturbate = 4,
+        HWithPlayer = 5,
+        DoClubActivities = 6,
+        TalkWithGirls = 7,
+        TalkWithPlayer = 8,
+        Read = 9,
+        FiddleWithSmartphone = 10,
+        GameOnSmartphone = 11,
+        TakeSelfie = 12,
+        ListenToMusic = 13,
+        DancePractice = 14,
+        ImproveMyAppearance = 15,
+        Drink = 16,
+        ChangeMyMind = 17,
+        Exercise = 18,
+        CharaSpecificBehavior = 19,
+        GetAway = 20,
+        Study = 21,
+        Sleep = 22,
+        FollowMe = 23,
+        Request = 24,
+        Shy = 25,
+        Lesbian = 26,
+        LesbianPartner = 27,
+        AskPlayerToTalk = 28,
+        AskPlayerForH = 29,
+        FidgetingWaiting = 30,
+        S31 = 31,
+        S32 = 32,
+        S33 = 33,
+        S34 = 34,
+        S35 = 35,
+        S36 = 36,
+        S37 = 38,
+        S39 = 39,
+        S40 = 40,
+        S41 = 41,
+        S42 = 42,
+        S43 = 43,
+        S44 = 44,
+        S45 = 45,
+        S46 = 46,
+        S47 = 47,
+        S48 = 48,
+        S49 = 49,
+        S50 = 50,
+        S51 = 51,
+        S52 = 52,
+        S53 = 53,
+        SMasturbate = 54
+    }
+
     public enum HeroineStatus
     {
         Unknown,
@@ -56,7 +117,6 @@ namespace IDHIUtils
         Rotor = 1017,
         LesbianLieDown = 1100,
         LesbianChair = 1101,
-        LesbianStand = 1102,
         Groping = 1102,
         StraddleBench = 1200,
         SofaCowgirl = 1201,

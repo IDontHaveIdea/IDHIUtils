@@ -28,33 +28,34 @@ namespace IDHIUtils
             /// </summary>
             /// <param name="__instance">Instance of HSceneProc</param>
             [HarmonyPostfix]
-            [HarmonyPatch(typeof(HSceneProc), nameof(HSceneProc.GetCloseCategory))]
-            private static void GetCloseCategoryPostfix(object __instance)
+            [HarmonyPatch(typeof(HSceneProc), nameof(HSceneProc.SetShortcutKey))]
+            private static void HPointPostfix(object __instance)
             {
                 //_hProcObject = __instance;
                 _hProcTraverse = Traverse.Create(__instance);
-                _closeHPointData = _hProcTraverse
-                    .Field<List<HPointData>>("closeHpointData").Value;
                 InitialPosition =
                     _hProcTraverse.Field<Vector3>("initPos").Value;
                 InitialRotation =
                     _hProcTraverse.Field<Quaternion>("initRot").Value;
+#if KKS
                 InitialNowPosition =
                     _hProcTraverse.Field<Vector3>("nowHpointDataPos").Value;
-                InitialPositionName =
-                    _hProcTraverse.Field<string>("nowHpointData").Value;
+#endif
+                InitialPositionName = "HPointBase";
+
+                var lstHPointData = HPointDataList(__instance);
 
                 _hPointDataPosition.Clear();
                 _hPointDataName.Clear();
 
-                foreach (var hPointData in _closeHPointData)
+                foreach (var hPointData in lstHPointData)
                 {
                     _hPointDataPosition[hPointData.transform.position] = hPointData;
                     _hPointDataName[hPointData.name] = hPointData;
                 }
                 //HPointDataList(__instance);
 #if DEBUG
-                LogHPointDataInfo(_closeHPointData);
+                LogHPointDataInfo(lstHPointData);
                 //LogHPointDataInfo(_lstHPointData);
 #endif
             }
@@ -65,7 +66,7 @@ namespace IDHIUtils
         private static readonly Dictionary<Vector3, HPointData> _hPointDataPosition = new();
         private static readonly Dictionary<string, HPointData> _hPointDataName = new();
         private static Traverse _hProcTraverse = null;
-        private static List<HPointData> _closeHPointData;
+        //private static List<HPointData> _closeHPointData;
         //private static List<HPointData> _lstHPointData = new();
         #endregion
 
@@ -93,7 +94,7 @@ namespace IDHIUtils
             }
         }
         public static Vector3 InitialPosition { get; private set; }
-        public static Vector3 InitialNowPosition { get; private set; }
+        //public static Vector3 InitialNowPosition { get; private set; }
         public static string InitialPositionName { get; private set; }
         public static Quaternion InitialRotation { get; private set; }
         #endregion
@@ -102,9 +103,10 @@ namespace IDHIUtils
         private static void LogHPointDataInfo(List<HPointData> hPointData)
         {
             var lines = new StringBuilder();
+#if KKS
             lines.Clear();
-
-            lines.Append($"Initial position name={InitialPositionName} nowPosition={InitialNowPosition.Format()} position=" +
+#endif
+            lines.Append($"Initial position name={InitialPositionName} position=" +
                 $"{InitialPosition.Format()} rotation={InitialRotation.Format()}\n");
             foreach (var hpointData in hPointData)
             {
@@ -119,7 +121,7 @@ namespace IDHIUtils
             Utilities._Log.Level(BepInEx.Logging.LogLevel.Info, $"\n\nHPointData:\n{lines}\n");
         }
 #endif
-        public static void Init()
+            public static void Init()
         {
             _ = Harmony.CreateAndPatchAll(typeof(Hooks));
         }
@@ -128,7 +130,7 @@ namespace IDHIUtils
         {
             var name = "Unknown";
 
-            if (position == InitialNowPosition)
+            if (position == InitialPosition)
             {
                 return InitialPositionName;
             }
@@ -251,9 +253,7 @@ namespace IDHIUtils
             return "Unknown";
         }
 
-
-        /*
-        private static void HPointDataList(object __instance)
+        private static List<HPointData> HPointDataList(object __instance)
         {
             #region get needed fields using reflection
             var hSceneTraverse = Traverse.Create(__instance);
@@ -262,6 +262,8 @@ namespace IDHIUtils
             var map = hSceneTraverse
                 .Field<ActionMap>("map").Value;
             #endregion
+
+            var lstHPointData = new List<HPointData>();
 
             StringBuilder sbTmp = new("HPoint_");
 
@@ -283,11 +285,15 @@ namespace IDHIUtils
 
             if (gameObjectList == null || gameObjectList.Count == 0)
             {
-                return;
+                return null;
             }
+
+            var objPoints = UnityEngine.Object
+                .Instantiate(gameObjectList[gameObjectList.Count - 1]);
 
             var componentsInChildren = gameObjectList[gameObjectList.Count - 1]
                 .GetComponentsInChildren<HPointData>(true);
+
             var component = gameObjectList[gameObjectList.Count - 1]
                 .GetComponent<HPointOmitObject>();
             var hPointDataArray = componentsInChildren;
@@ -317,14 +323,15 @@ namespace IDHIUtils
                     //    (hPointData.transform.position - flags.HpointJudgePos).sqrMagnitude;
                     //if (!(sqrMagnitude > area))
                     //{
-                    if (!_lstHPointData.Contains(hPointData))
+                    if (!lstHPointData.Contains(hPointData))
                         {
-                            _lstHPointData.Add(hPointData);
+                            lstHPointData.Add(hPointData);
                         }
                     //}
                 }
             }
+
+            return lstHPointData;
         }
-        */
     }
 }

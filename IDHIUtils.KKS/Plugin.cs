@@ -1,6 +1,8 @@
 ﻿//
 // KKS entry point
 //
+// Ignore Spelling: Utils
+
 using BepInEx;
 
 using KKAPI;

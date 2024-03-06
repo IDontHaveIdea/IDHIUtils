@@ -149,23 +149,15 @@ namespace IDHIUtils
         public static event EventHandler<HSceneLoadingEventArgs>
             OnFinishedLoading;
 
-        public class HSceneLoadingEventArgs : EventArgs
+        public class HSceneLoadingEventArgs(object instance,
+            HFlag hFlag, HSprite sprite,
+            List<ChaControl> lstFemale, ChaControl male) : EventArgs
         {
-            public object ObjectInstance { get; }
-            public HFlag HFlag { get; }
-            public HSprite Sprite { get; }
-            public List<ChaControl> Females { get; }
-            public ChaControl Male { get; }
-            public HSceneLoadingEventArgs(object instance,
-                HFlag hFlag, HSprite sprite,
-                List<ChaControl> lstFemale, ChaControl male)
-            {
-                ObjectInstance = instance;
-                HFlag = hFlag;
-                Sprite = sprite;
-                Females = lstFemale;
-                Male = male;
-            }
+            public object ObjectInstance { get; } = instance;
+            public HFlag HFlag { get; } = hFlag;
+            public HSprite Sprite { get; } = sprite;
+            public List<ChaControl> Females { get; } = lstFemale;
+            public ChaControl Male { get; } = male;
         }
         #endregion
 

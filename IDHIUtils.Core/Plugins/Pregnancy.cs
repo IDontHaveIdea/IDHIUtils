@@ -40,7 +40,7 @@ namespace IDHIUtils
 
             if (_fertilityMethod != null)
             {
-                var obj = _fertilityMethod.Invoke(null, new object[] { character });
+                var obj = _fertilityMethod.Invoke(null, [character]);
                 if (obj != null)
                 {
                     fertility = (float)obj;
@@ -63,7 +63,7 @@ namespace IDHIUtils
 
             if (_fertilityMethod != null)
             {
-                var obj = _statusMethod.Invoke(null, new object[] { character, null });
+                var obj = _statusMethod.Invoke(null, [character, null]);
                 if (obj != null)
                 {
                     status = (HeroineStatus)(int)obj;

@@ -1,19 +1,20 @@
-﻿using System;
+﻿//
+// Plugin.Info.cs
+//
+
+using System;
 using System.Reflection;
 
 using IDHIUtils;
 
 #region Assembly attributes
-
 /*
  * These attributes define various meta-information of the generated DLL.
- * In general, you don't need to touch these. Instead, edit the values in Info.
  */
 [assembly: AssemblyTitle(Constants.Prefix + "_" + IDHIUtilsInfo.PluginName + " (" + IDHIUtilsInfo.GUID + ")")]
 [assembly: AssemblyProduct(Constants.Prefix + "_" + IDHIUtilsInfo.PluginName)]
 [assembly: AssemblyVersion(IDHIUtilsInfo.Version)]
 [assembly: AssemblyFileVersion(IDHIUtilsInfo.Version)]
-
 #endregion Assembly attributes
 
 //

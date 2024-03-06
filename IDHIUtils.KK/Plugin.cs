@@ -1,6 +1,8 @@
 ﻿//
 // KK
 //
+// Ignore Spelling: Utils
+
 using BepInEx;
 
 using KKAPI;
