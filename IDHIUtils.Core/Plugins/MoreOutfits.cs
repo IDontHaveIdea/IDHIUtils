@@ -50,7 +50,7 @@ namespace IDHIUtils
             ChaControl chaControl,
             ChaFileDefine.CoordinateType coordinate)
         {
-            return GetCoordinateName(chaControl, coordinate);
+            return GetCoordinateName(chaControl, (int)coordinate);
         }
 
         public Dictionary<int, string> CoordinateNames(ChaControl chaControl)
@@ -62,12 +62,12 @@ namespace IDHIUtils
         {
             if (!Installed)
             {
-                return new Dictionary<int, string>();
+                return [];
             }
 
             return Traverse.Create(pluginController)
                 .Field("CoordinateNames").GetValue<Dictionary<int, string>>()
-                    ?? new Dictionary<int, string>();
+                    ?? [];
         }
     }
 }
