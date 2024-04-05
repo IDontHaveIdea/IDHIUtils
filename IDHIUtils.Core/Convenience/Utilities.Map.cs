@@ -107,6 +107,23 @@ namespace IDHIUtils
 
         public static string MapName(int mapNumber)
         {
+#if KKS
+            if (ActionScene.instance.Map.infoDic.TryGetValue(mapNumber, out var param))
+            {
+                var locationName = param.DisplayName;
+
+#else
+            if (Singleton<ActionScene>.instance.Map.infoDic.TryGetValue(mapNumber, out var param))
+            {
+                var locationName = param.MapName;
+#endif
+                if (TranslationHelper.TryTranslate(locationName,
+                    out var translateLocation))
+                {
+                    return translateLocation;
+                }
+            }
+           
             if (Maps.TryGetValue(mapNumber, out var mapInfo))
             {
                 return Translate(mapInfo.MapName);
