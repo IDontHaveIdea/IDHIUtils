@@ -33,7 +33,7 @@ namespace IDHIUtils
         {
             if (!Installed)
             {
-                return "";
+                return string.Empty;
             }
 
             if (coordinateIndex < 3)
@@ -41,9 +41,16 @@ namespace IDHIUtils
                 return $"{(ChaFileDefine.CoordinateType)coordinateIndex}";
             }
 
-            return Traverse.Method("GetCoodinateName",
-                    new object[] { chaControl, coordinateIndex })
-                    .GetValue<string>();
+            try
+            {
+                return Traverse.Method("GetCoodinateName",
+                        new object[] { chaControl, coordinateIndex })
+                        .GetValue<string>();
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
 
         public string GetCoordinateName(
@@ -65,9 +72,16 @@ namespace IDHIUtils
                 return [];
             }
 
-            return Traverse.Create(pluginController)
-                .Field("CoordinateNames").GetValue<Dictionary<int, string>>()
-                    ?? [];
+            try
+            {
+                return Traverse.Create(pluginController)
+                    .Field("CoordinateNames").GetValue<Dictionary<int, string>>()
+                        ?? [];
+            }
+            catch
+            {
+                return [];
+            }
         }
     }
 }
