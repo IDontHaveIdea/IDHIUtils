@@ -31,7 +31,6 @@ namespace IDHIUtils
             [HarmonyPatch(typeof(HSceneProc), nameof(HSceneProc.GetCloseCategory))]
             private static void GetCloseCategoryPostfix(object __instance)
             {
-                //_hProcObject = __instance;
                 _hProcTraverse = Traverse.Create(__instance);
                 _closeHPointData = _hProcTraverse
                     .Field<List<HPointData>>("closeHpointData").Value;
@@ -62,8 +61,8 @@ namespace IDHIUtils
 #endregion
 
         #region private Fields
-        private static readonly Dictionary<Vector3, HPointData> _hPointDataPosition = new();
-        private static readonly Dictionary<string, HPointData> _hPointDataName = new();
+        private static readonly Dictionary<Vector3, HPointData> _hPointDataPosition = [];
+        private static readonly Dictionary<string, HPointData> _hPointDataName = [];
         private static Traverse _hProcTraverse = null;
         private static List<HPointData> _closeHPointData;
         //private static List<HPointData> _lstHPointData = new();
