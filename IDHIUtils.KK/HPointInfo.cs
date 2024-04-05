@@ -63,8 +63,8 @@ namespace IDHIUtils
 #endregion
 
         #region private Fields
-        private static readonly Dictionary<Vector3, HPointData> _hPointDataPosition = new();
-        private static readonly Dictionary<string, HPointData> _hPointDataName = new();
+        private static readonly Dictionary<Vector3, HPointData> _hPointDataPosition = [];
+        private static readonly Dictionary<string, HPointData> _hPointDataName = [];
         private static Traverse _hProcTraverse = null;
         //private static List<HPointData> _closeHPointData;
         //private static List<HPointData> _lstHPointData = new();
