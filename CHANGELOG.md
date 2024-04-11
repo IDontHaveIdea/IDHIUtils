@@ -1,5 +1,11 @@
 # Changelog
 
+## <u>v1.0.8.0 - 2024-04-11</u>
+
+### Fixed
+
+- Fix null reference that occurred under certain conditions
+
 ## <u>v1.0.7.0</u>
 
 ### Added
