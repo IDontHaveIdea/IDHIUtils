@@ -33,7 +33,7 @@ namespace IDHIUtils
                 _Log.Enabled = DebugInfo.Value;
 #if DEBUG
                 _Log.Level(LogLevel.Info, $"[ConfigEntries] Log.Enabled set to " +
-                    $"{_Log.Enabled}");
+                    $"{_Log.Enabled}.");
 #endif
             };
 
@@ -53,7 +53,7 @@ namespace IDHIUtils
                 _Log.DebugToConsole = DebugToConsole.Value;
 #if DEBUG
                 _Log.Level(LogLevel.Info, $"[ConfigEntries] Log.DebugToConsole set to " +
-                    $"{_Log.DebugToConsole}");
+                    $"{_Log.DebugToConsole}.");
 #endif
             };
 
