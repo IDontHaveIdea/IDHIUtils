@@ -122,9 +122,9 @@ namespace IDHIUtils
                 var stackTrace = new StackTrace();
 
                 // Get calling method name
-                var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
+                var callingMethod = stackTrace.GetFrame(1).GetMethod().Name;
 
-                logMessage = $"Called by:[{calllingMethod}] {data}";
+                logMessage = $"Called by:[{callingMethod}] {data}";
             }
             else
             {
@@ -161,9 +161,9 @@ namespace IDHIUtils
                     var stackTrace = new StackTrace();
 
                     // Get calling method name
-                    var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
+                    var callingMethod = stackTrace.GetFrame(1).GetMethod().Name;
 
-                    logMessage = $"Called by:[{calllingMethod}] {data}";
+                    logMessage = $"Called by:[{callingMethod}] {data}";
                 }
                 else
                 {
@@ -201,9 +201,9 @@ namespace IDHIUtils
                     var stackTrace = new StackTrace();
 
                     // Get calling method name
-                    var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
+                    var callingMethod = stackTrace.GetFrame(1).GetMethod().Name;
 
-                    logMessage = $"Called by:[{calllingMethod}] {data}";
+                    logMessage = $"Called by:[{callingMethod}] {data}";
                 }
                 else
                 {
@@ -236,9 +236,9 @@ namespace IDHIUtils
                         var stackTrace = new StackTrace();
 
                         // Get calling method name
-                        var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
+                        var callingMethod = stackTrace.GetFrame(1).GetMethod().Name;
 
-                        logMessage = $"Called by:[{calllingMethod}] {data}";
+                        logMessage = $"Called by:[{callingMethod}] {data}";
                     }
                     else
                     {
@@ -274,9 +274,9 @@ namespace IDHIUtils
                     var stackTrace = new StackTrace();
 
                     // Get calling method name
-                    var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
+                    var callingMethod = stackTrace.GetFrame(1).GetMethod().Name;
 
-                    logMessage = $"Called by:[{calllingMethod}] {data}";
+                    logMessage = $"Called by:[{callingMethod}] {data}";
                 }
                 else
                 {
@@ -306,9 +306,9 @@ namespace IDHIUtils
                     var stackTrace = new StackTrace();
 
                     // Get calling method name
-                    var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
+                    var callingMethod = stackTrace.GetFrame(1).GetMethod().Name;
 
-                    logMessage = $"Called by:[{calllingMethod}] {data}";
+                    logMessage = $"Called by:[{callingMethod}] {data}";
                 }
                 else
                 {
@@ -346,9 +346,9 @@ namespace IDHIUtils
                     var stackTrace = new StackTrace();
 
                     // Get calling method name
-                    var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
+                    var callingMethod = stackTrace.GetFrame(1).GetMethod().Name;
 
-                    logMessage = $"Called by:[{calllingMethod}] {data}";
+                    logMessage = $"Called by:[{callingMethod}] {data}";
                 }
                 else
                 {
@@ -373,11 +373,11 @@ namespace IDHIUtils
                     var stackTrace = new StackTrace();
 
                     // Get calling method name
-                    var calllingMethod = stackTrace.GetFrame(1).GetMethod().Name;
+                    var callingMethod = stackTrace.GetFrame(1).GetMethod().Name;
 
                     if (_writer.BaseStream != null)
                     {
-                        _writer.WriteLine($"Called by:[{calllingMethod}] {data}");
+                        _writer.WriteLine($"Called by:[{callingMethod}] {data}");
                         _writer.Flush();
                     }
                 }
