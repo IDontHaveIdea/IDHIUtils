@@ -208,6 +208,24 @@ namespace IDHIUtils
                 return false;
             }
         }
+
+        /// <summary>
+        /// Property returns true if inside FreeH
+        /// </summary>
+        public static bool InFreeH
+        {
+            get
+            {
+                var hFlag = GameObject.FindObjectOfType<HFlag>();
+                if (hFlag != null)
+                {
+                    // Inside FreeH
+                    if (hFlag.isFreeH)
+                        return true;
+                }
+                return false;
+            }
+        }
         #endregion
 
         #region Static methods
@@ -432,7 +450,6 @@ namespace IDHIUtils
                             break;
                         }
                     }
-                    //Console.WriteLine($"i={i} High up the call stack, Line Number: {sf.GetFileLineNumber()}");
                 }
             }
 

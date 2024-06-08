@@ -5,11 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using ActionGame;
-using Manager;
 
 #if KKS
-
 namespace IDHIUtils
 {
     public static class Desires

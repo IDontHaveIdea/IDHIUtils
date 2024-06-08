@@ -1,6 +1,7 @@
 ﻿//
 // MoreOutfits
 //
+
 using System.Collections.Generic;
 
 using HarmonyLib;

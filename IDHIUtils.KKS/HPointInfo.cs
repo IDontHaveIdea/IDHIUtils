@@ -9,8 +9,6 @@ using System.Text;
 
 using UnityEngine;
 
-using ActionGame;
-using ActionGame.H;
 using H;
 
 using HarmonyLib;

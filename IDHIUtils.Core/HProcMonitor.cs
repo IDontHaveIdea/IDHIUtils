@@ -59,10 +59,10 @@ namespace IDHIUtils
             private static void StartPrefix(
                 object __instance)
             {
-                var hsceneTraverse = Traverse.Create(__instance);
-                var flags = hsceneTraverse
+                var hSceneTraverse = Traverse.Create(__instance);
+                var flags = hSceneTraverse
                         .Field<HFlag>("flags").Value;
-                var sprite = hsceneTraverse.Field<HSprite>("sprite").Value;
+                var sprite = hSceneTraverse.Field<HSprite>("sprite").Value;
                 OnStartLoading?.Invoke(null,
                     new HSceneLoadingEventArgs(
                         __instance, flags, sprite, null, null));
@@ -88,10 +88,10 @@ namespace IDHIUtils
                     return;
                 }
 
-                var hsceneTraverse = Traverse.Create(__instance);
-                var flags = hsceneTraverse
+                var hSceneTraverse = Traverse.Create(__instance);
+                var flags = hSceneTraverse
                         .Field<HFlag>("flags").Value;
-                var sprite = hsceneTraverse.Field<HSprite>("sprite").Value;
+                var sprite = hSceneTraverse.Field<HSprite>("sprite").Value;
                 Kuuhou = true;
                 Flags = flags;
                 Heroines = flags.lstHeroine;

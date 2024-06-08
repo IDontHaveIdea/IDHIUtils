@@ -1,4 +1,7 @@
-﻿// Ignore Spelling: Utils Anim Taii
+﻿//
+// Utilities
+//
+// Ignore Spelling: Utils Anim Taii
 
 using System.Collections.Generic;
 
