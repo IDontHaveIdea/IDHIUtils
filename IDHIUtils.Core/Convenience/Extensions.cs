@@ -8,12 +8,14 @@ using System;
 using UnityEngine;
 
 using KKAPI.MainGame;
+using System.Runtime.CompilerServices;
 
 
 namespace IDHIUtils
 {
     public static class UtilsExtensions
     {
+        #region Vector format
         /// <summary>
         /// String format Vector3 to help debugging 
         /// </summary>
@@ -105,6 +107,7 @@ namespace IDHIUtils
 
             return result;
         }
+        #endregion
 
         #region Heroine extensions
         /// <summary>
@@ -127,6 +130,20 @@ namespace IDHIUtils
                 return nPC.mapNo;
             }
             return (-1);
+        }
+
+        public static string Name(this SaveData.Heroine self)
+        {
+            var result = "";
+
+            result = Utilities.Translate(self.Name);
+
+            return result.Trim();
+        }
+
+        public static string MapName(this SaveData.Heroine self)
+        {
+            return Utilities.MapName(self);
         }
 
         public static int Height(this SaveData.Heroine self)
@@ -165,6 +182,15 @@ namespace IDHIUtils
             ChaFileDefine.BodyShapeIdx shapeIdx)
         {
             return self.chaFile.custom.body.shapeValueBody[(int)shapeIdx];
+        }
+
+        public static string Name(this ChaControl self)
+        {
+            var result = "";
+
+            result = Utilities.Translate(self.chaFile.parameter.fullname);
+
+            return result.Trim();
         }
         #endregion
     }
