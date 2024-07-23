@@ -12,6 +12,7 @@ using UnityEngine;
 using H;
 
 using HarmonyLib;
+using ActionGame;
 
 
 namespace IDHIUtils
@@ -49,9 +50,9 @@ namespace IDHIUtils
                     _hPointDataPosition[hPointData.transform.position] = hPointData;
                     _hPointDataName[hPointData.name] = hPointData;
                 }
-                //HPointDataList(__instance);
+                AddSpecialHPointData(__instance);
 #if DEBUG
-                LogHPointDataInfo(_closeHPointData);
+                LogHPointDataInfo();
                 //LogHPointDataInfo(_lstHPointData);
 #endif
             }
@@ -63,6 +64,7 @@ namespace IDHIUtils
         private static readonly Dictionary<string, HPointData> _hPointDataName = [];
         private static Traverse _hProcTraverse = null;
         private static List<HPointData> _closeHPointData;
+        private static List<HPointData> _specialHPointData = [];
         //private static List<HPointData> _lstHPointData = new();
         #endregion
 
@@ -96,22 +98,35 @@ namespace IDHIUtils
         #endregion
 
 #if DEBUG
-        private static void LogHPointDataInfo(List<HPointData> hPointData)
+        private static void LogHPointDataInfo()
         {
             var lines = new StringBuilder();
             lines.Clear();
 
             lines.Append($"Initial position name={InitialPositionName} nowPosition={InitialNowPosition.Format()} position=" +
                 $"{InitialPosition.Format()} rotation={InitialRotation.Format()}\n");
-            foreach (var hpointData in hPointData)
+            foreach (var hPointData in _closeHPointData)
             {
-                lines.Append($"Name: {hpointData.name} " +
-                    $"position={hpointData.transform.position.Format()} " +
-                    $"rotation={hpointData.transform.rotation.Format()} " +
-                    $"angles={hpointData.transform.eulerAngles.Format()} " +
-                    $"backup position={hpointData.backupPos.Format()} ");
+                lines.Append($"Name: {hPointData.name} " +
+                    $"position={hPointData.transform.position.Format()} " +
+                    $"rotation={hPointData.transform.rotation.Format()} " +
+                    $"angles={hPointData.transform.eulerAngles.Format()} " +
+                    $"backup position={hPointData.backupPos.Format()} ");
                 lines.Append($"categorys=" +
-                    $"{Utilities.CategoryList(hpointData.category, names: true)}\n");
+                    $"{Utilities.CategoryList(hPointData.category, names: true)}\n");
+            }
+            if (_specialHPointData.Count() > 0)
+            {
+                foreach (var hPointData in _specialHPointData)
+                {
+                    lines.Append($"Name: {hPointData.name} " +
+                        $"position={hPointData.transform.position.Format()} " +
+                        $"rotation={hPointData.transform.rotation.Format()} " +
+                        $"angles={hPointData.transform.eulerAngles.Format()} " +
+                        $"backup position={hPointData.backupPos.Format()} ");
+                    lines.Append($"categorys=" +
+                        $"{Utilities.CategoryList(hPointData.category, names: true)}\n");
+                }
             }
             Utilities._Log.Level(BepInEx.Logging.LogLevel.Info, $"\n\nHPointData:\n{lines}\n");
         }
@@ -248,8 +263,194 @@ namespace IDHIUtils
             return "Unknown";
         }
 
+        private static void AddSpecialHPointData(object __instance)
+        {
+            var hSceneProc = new HSceneProcTraverse(__instance);
+            var flags = hSceneProc.flags;
+            var categorys = hSceneProc.categorys;
+
+            if (flags.isFreeH || categorys[0] == 12 || categorys[0] >= 1000)
+            {
+                return;
+            }
+
+            var lstInitCategory = hSceneProc.lstInitCategory;
+            var map = hSceneProc.map;
+            var nowHpointData = hSceneProc.nowHpointData;
+
+            var sbTmp = new StringBuilder("HPoint_");
+
+            if (categorys.Any(c => c >= 1010 && c < 1100)
+                || categorys.Any(c => c >= 1100 && c < 1200))
+            {
+                sbTmp.Append("Add_");
+            }
+            else if (categorys.Any(
+                c => c >= 3000 && c < 4000))
+            {
+                sbTmp.Append("3P_");
+            }
+
+            var gameObjectList = GlobalMethod.LoadAllFolder<GameObject>("h/common/",
+                sbTmp.ToString() + map.no.ToString());
+
+            if (gameObjectList == null || gameObjectList.Count == 0)
+            {
+                return;
+            }
+
+            var hPointDataArray = gameObjectList[gameObjectList.Count - 1]
+                .GetComponentsInChildren<HPointData>(includeInactive: true);
+            var hPointOmit = gameObjectList[gameObjectList.Count - 1]
+                .GetComponent<HPointOmitObject>();
+
+            foreach (var hPointData in hPointDataArray.Where(
+                (HPointData x) => x.category.Any((int c) => c == 12 || (c >= 1000 && c < 1999))))
+            {
+                if (!hPointOmit.list.Contains(hPointData.gameObject)
+                    && (nowHpointData == null || !(hPointData.name == nowHpointData))
+                    && !_closeHPointData.Contains(hPointData))
+                {
+                    _specialHPointData.Add(hPointData);
+                    _hPointDataPosition[hPointData.transform.position] = hPointData;
+                    _hPointDataName[hPointData.name] = hPointData;
+                }
+
+                /*if (!hPointOmit.list.Contains(hPointData.gameObject))
+                {                   
+                    if (nowHpointData == null || !(hPointData.name == nowHpointData))
+                    {
+                        if (!_closeHPointData.Contains(hPointData))
+                        {
+                            _specialHPointData.Add(hPointData);
+                            _hPointDataPosition[hPointData.transform.position] = hPointData;
+                            _hPointDataName[hPointData.name] = hPointData;
+                        }
+                    }
+                }*/
+            }
+        }
+
+        private void GetCloseCategory(object instance)
+        {
+            var hSceneProc = new HSceneProcTraverse(instance);
+
+            List<int> useCategorys = new List<int>();
+
+            var categorys = hSceneProc.categorys;
+            var lstInitCategory = hSceneProc.lstInitCategory;
+            var flags = hSceneProc.flags;
+            var nowHpointData = hSceneProc.nowHpointData;
+            var closeHpointData = hSceneProc.closeHpointData;
+            var HpointJudgePos = hSceneProc.HpointJudgePos;
+            var map = hSceneProc.map;
+            var useInitPosPoint = hSceneProc.useInitPosPoint;
+            var closeInitPoint = hSceneProc.closeInitPoint;
+
+            useCategorys.Clear();
+            useCategorys.AddRange(categorys);
+
+            StringBuilder stringBuilder = new StringBuilder("HPoint_");
+            if (categorys.Any((int c) => c >= 1010 && c < 1100)
+                || categorys.Any((int c) => c >= 1100 && c < 1200))
+            {
+                stringBuilder.Append("Add_");
+            }
+            else if (categorys.Any((int c) => c >= 3000 && c < 4000))
+            {
+                stringBuilder.Append("3P_");
+            }
+
+            List<GameObject> list = GlobalMethod
+                .LoadAllFolder<GameObject>("h/common/",
+                    stringBuilder.ToString() + map.no.ToString());
+            if (list == null || list.Count == 0)
+            {
+                return;
+            }
+
+            HPointData[] componentsInChildren = list[list.Count - 1]
+                .GetComponentsInChildren<HPointData>(includeInactive: true);
+            HPointOmitObject component = list[list.Count - 1]
+                .GetComponent<HPointOmitObject>();
+
+            bool flag = lstInitCategory.Any((int c) => c == 12 || c >= 1000);
+            bool flag2 = lstInitCategory.Any((int c) => c >= 3000 && c < 4000);
+            float num = flags.HpointSearch * flags.HpointSearch;
+            HPointData[] array = componentsInChildren;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i].BackUpPosition();
+            }
+            foreach (HPointData hPointData in componentsInChildren)
+            {
+                if (component.list.Contains(hPointData.gameObject))
+                {
+                    continue;
+                }
+                if (flags.isFreeH)
+                {
+                    if (!hPointData.category.Any((int c) =>
+                        MathfEx.IsRange(2000, c, 2999, isEqual: true))
+                        && hSceneProc.IsCategoryInAnimationList(hPointData.category)
+                        && hSceneProc.IsExperience(hPointData.Experience))
+                    {
+                        hSceneProc.SetCategory(hPointData);
+                        if (nowHpointData == null || !(hPointData.name == nowHpointData))
+                        {
+                            closeHpointData.Add(hPointData);
+                        }
+                    }
+                }
+                else if (flag)
+                {
+                    if (!((!flag2) ? hPointData.category
+                        .Any((int c) => (c == 12 || c >= 1000)
+                        && lstInitCategory.Contains(c)) : hPointData.category
+                            .Any((int c) => c >= 3000 && c < 4000))
+                                || !hSceneProc.IsExperience(hPointData.Experience))
+                    {
+                        continue;
+                    }
+                    float sqrMagnitude =
+                        (hPointData.transform.position - HpointJudgePos).sqrMagnitude;
+                    if (!flags.HpointSearchLimit || !(sqrMagnitude > num))
+                    {
+                        hSceneProc.SetCategory(hPointData, isSpecial: true);
+                        if (nowHpointData == null || !(hPointData.name == nowHpointData))
+                        {
+                            closeHpointData.Add(hPointData);
+                        }
+                    }
+                }
+                else
+                {
+                    if (hPointData.category.Any((int c) => c == 12 || c >= 1000)
+                        || !hSceneProc.IsExperience(hPointData.Experience))
+                    {
+                        continue;
+                    }
+                    float sqrMagnitude =
+                        (hPointData.transform.position - HpointJudgePos).sqrMagnitude;
+                    if (!flags.HpointSearchLimit || !(sqrMagnitude > num))
+                    {
+                        hSceneProc.SetCategory(hPointData);
+                        if (nowHpointData == null || !(hPointData.name == nowHpointData))
+                        {
+                            closeHpointData.Add(hPointData);
+                        }
+                    }
+                }
+            }
+            if (useInitPosPoint)
+            {
+                closeInitPoint = false;
+            }
+        }
 
         /*
+   
         private static void HPointDataList(object __instance)
         {
             #region get needed fields using reflection
