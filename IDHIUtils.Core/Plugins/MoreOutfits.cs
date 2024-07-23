@@ -37,7 +37,7 @@ namespace IDHIUtils
                 return string.Empty;
             }
 
-            if (coordinateIndex < 3)
+            if (coordinateIndex <= 3)
             {
                 return $"{(ChaFileDefine.CoordinateType)coordinateIndex}";
             }
