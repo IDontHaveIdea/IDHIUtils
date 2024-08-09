@@ -23,13 +23,17 @@ namespace IDHIUtils
             var PregnancyType = Type.GetType("KK_Pregnancy.PregnancyDataUtils, KKS_Pregnancy");
             if (PregnancyType != null)
             {
-                Utilities._Log.Warning($"CARAJO PregnancyType OK.");
+#if DEBUG
+                Utilities._Log.Warning($"[Pregnancy] PregnancyType OK.");
+#endif
                 _fertilityMethod = PregnancyType.GetMethod("GetFertility");
                 _statusMethod = PregnancyType.GetMethod("GetCharaStatus");
+#if DEBUG
                 if (_fertilityMethod != null )
                 {
-                    Utilities._Log.Warning($"CARAJO _fertilityMethod OK.");
+                    Utilities._Log.Warning($"[Pregnancy] _fertilityMethod OK.");
                 }
+#endif
             }
             /*
              * Utilities._Log.Warning($"CARAJO NEXT STEP 00.");
