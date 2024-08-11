@@ -1,4 +1,8 @@
-﻿using System;
+﻿//
+// SVG colors
+//
+
+using System;
 
 using UnityEngine;
 

@@ -5,10 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using ActionGame;
-using Manager;
-
-#if KKS
 
 namespace IDHIUtils
 {
@@ -42,7 +38,7 @@ namespace IDHIUtils
 
         public static void GetDesiresBad(SaveData.Heroine heroine)
         {
-            Console.WriteLine("DESIRE");
+            //Console.WriteLine("DESIRE");
             var desireInfo = heroine.desireInfo;
             var data = new StringBuilder();
 
@@ -57,7 +53,6 @@ namespace IDHIUtils
         }
     }
 }
-#endif
 
 /*
 public void Init()

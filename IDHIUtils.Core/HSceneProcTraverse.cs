@@ -1,9 +1,9 @@
 ﻿//
 // HSceneProcTraverse
 //
-using System;
-using System.Collections.Generic;
 
+using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using ActionGame;
 using H;
 
@@ -50,6 +50,8 @@ namespace IDHIUtils
                     .Field<HitCollisionEnableCtrl>("hitcollisionFemale1").Value;
         public HitCollisionEnableCtrl hitcollisionMale => Traverse
                     .Field<HitCollisionEnableCtrl>("hitcollisionMale").Value;
+        public Vector3 HpointJudgePos => Traverse
+                    .Field<Vector3>("HpointJudgePos").Value;
         public Vector3 initPos => Traverse
                     .Field<Vector3>("initPos").Value;
         public Quaternion initRot => Traverse
@@ -64,6 +66,8 @@ namespace IDHIUtils
                     .Field<List<HSceneProc.AnimationListInfo>[]>("lstUseAnimInfo").Value;
         public List<ChaControl> lstFemale => Traverse
                     .Field<List<ChaControl>>("lstFemale").Value;
+        public List<int> lstInitCategory => Traverse
+                    .Field<List<int>>("lstInitCategory").Value;
         public List<MotionIK> lstMotionIK => Traverse
                     .Field<List<MotionIK>>("lstMotionIK").Value;
         public List<HActionBase> lstProc => Traverse
@@ -112,6 +116,10 @@ namespace IDHIUtils
                     .Field<bool>("actYukaTaii").Value;
         public bool changeTaii => Traverse
                     .Field<bool>("changeTaii").Value;
+        public bool closeInitPoint => Traverse
+                    .Field<bool>("closeInitPoint").Value;
+        public bool useInitPosPoint => Traverse
+                    .Field<bool>("useInitPosPoint").Value;
         public HSprite sprite => Traverse
                     .Field<HSprite>("sprite").Value;
         public ShuffleRand[] voicePlayShuffle => Traverse
@@ -148,22 +156,30 @@ namespace IDHIUtils
             }
         }
 
+        public Traverse TCalcParameter => Traverse
+                    .Method("CalcParameter",
+                        [typeof(HScene.AddParameter)]);
         public Traverse TCheckExpAddTaii => Traverse
                     .Method("CheckExpAddTaii",
                       [typeof(int), typeof(int), typeof(float)]);
         public Traverse TCheckShopAdd => Traverse
                     .Method("CheckShopAdd",
                         [typeof(HashSet<int>), typeof(int), typeof(int)]);
+        public Traverse TIsCategoryInAnimationList => Traverse
+                    .Method("IsCategoryInAnimationList",
+                        [typeof(int[])]);
+        public Traverse TIsExperience => Traverse
+                    .Method("IsExperience",
+                        [typeof(int)]);
         public Traverse TSetLocalPosition => Traverse
                     .Method("SetLocalPosition",
                         [typeof(AnimationListInfo)]);
+        public Traverse TSetCategory => Traverse
+                    .Method("SetCategory",
+                        [typeof(HPointData), typeof(bool)]);
         public Traverse TSetBoneOffset => Traverse
                     .Method("SetBoneOffset",
                         [typeof(AnimationListInfo), typeof(AnimationListInfo)]);
-        public Traverse TCalcParameter => Traverse
-                    .Method("CalcParameter",
-                        [typeof(HScene.AddParameter)]);
-
         #endregion Properties
 
         #region Constructor
@@ -186,6 +202,22 @@ namespace IDHIUtils
             return result;
         }
 
+        public bool IsCategoryInAnimationList(int[] categorys)
+        {
+            var result = TIsCategoryInAnimationList.GetValue<bool>(categorys);
+            return result;
+        }
+
+        public bool IsExperience(int experience)
+        {
+            var result = TIsExperience.GetValue<bool>(experience);
+            return result;
+        }
+        public void SetCategory(HPointData data, bool isSpecial = false)
+        {
+            TSetCategory.GetValue(data, isSpecial);
+        }
+
         public bool SetLocalPosition(AnimationListInfo _info)
         {
             var result = TSetLocalPosition.GetValue<bool>(_info);
@@ -197,7 +229,7 @@ namespace IDHIUtils
             TSetBoneOffset.GetValue(now, next);
         }
 
-        public void CalckParameter(HScene.AddParameter add)
+        public void CalcParameter(HScene.AddParameter add)
         {
             TCalcParameter.GetValue(add);
         }

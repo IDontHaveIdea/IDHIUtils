@@ -1,5 +1,19 @@
 # Changelog
 
+## <u>v1.0.9.0 - 2024-08-12</u>
+
+Update libraries
+
+### Added
+
+- Generic method to read json files
+
+## <u>v1.0.8.0 - 2024-04-11</u>
+
+### Fixed
+
+- Fix null reference that occurred under certain conditions
+
 ## <u>v1.0.7.0</u>
 
 ### Added

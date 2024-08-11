@@ -3,21 +3,7 @@
 //
 // Ignore Spelling: Utils cha
 
-using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-
 using UnityEngine;
-
-using BepInEx;
-using HarmonyLib;
-
-using KKAPI.Utilities;
-using KKAPI.MainGame;
 
 
 namespace IDHIUtils
