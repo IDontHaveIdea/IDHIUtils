@@ -15,6 +15,17 @@
     <Compile Include="$(MSBuildThisFileDirectory)convenience\Utilities.Json.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)convenience\Utilities.Map.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)convenience\Utilities.Move.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LitJSON\AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LitJSON\IJsonWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LitJSON\JsonData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LitJSON\JsonException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LitJSON\JsonMapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LitJSON\JsonMockWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LitJSON\JsonReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LitJSON\JsonWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LitJSON\Lexer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LitJSON\Netstandard15Polyfill.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LitJSON\ParserToken.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities.Init.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugins\AnimationLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animations.cs" />
@@ -38,5 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Plugins\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)LitJSON\AssemblyInfo.cs.in" />
+    <None Include="$(MSBuildThisFileDirectory)LitJSON\LitJSON.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)LitJSON\litjson.png" />
   </ItemGroup>
 </Project>
