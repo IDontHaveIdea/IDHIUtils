@@ -226,7 +226,26 @@ namespace IDHIUtils
                 return false;
             }
         }
-        #endregion
+#if KKS
+        public static bool InRoom
+        {
+            get
+            {
+                var actScene = ActionScene.instance;
+                if (actScene != null)
+                {
+                    var currentMapNo = actScene.Map.no;
+
+                    return currentMapNo == 10
+                        || currentMapNo == 18
+                        || currentMapNo == 22;
+                }
+
+                return false;
+            }
+        }
+#endif
+#endregion
 
         #region Static methods
         /// <summary>
