@@ -1,5 +1,11 @@
 # Changelog
 
+## <u>v1.1.0.0 - 2024-08-19</u>
+
+### Added
+- Added Utilities.InRoom property
+- Embed LitJSON
+
 ## <u>v1.0.9.0 - 2024-08-12</u>
 
 Update libraries
