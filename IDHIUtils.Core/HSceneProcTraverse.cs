@@ -9,6 +9,8 @@ using H;
 
 using HarmonyLib;
 
+using HSceneUtility;
+
 using UnityEngine;
 
 using static HSceneProc;
@@ -44,6 +46,8 @@ namespace IDHIUtils
                     .Field<Dictionary<int, Dictionary<int, int>>>("dicExpAddTaii").Value;
         public HFlag flags => Traverse
                     .Field<HFlag>("flags").Value;
+        public HSceneGuideObject guideObject => Traverse
+                    .Field<HSceneGuideObject>("guideObject").Value;
         public HitCollisionEnableCtrl hitcollisionFemale => Traverse
                     .Field<HitCollisionEnableCtrl>("hitcollisionFemale").Value;
         public HitCollisionEnableCtrl hitcollisionFemale1 => Traverse
