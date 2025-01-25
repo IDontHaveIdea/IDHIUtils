@@ -221,12 +221,27 @@ namespace IDHIUtils
                 {
                     // Inside FreeH
                     if (hFlag.isFreeH)
+                    {
                         return true;
+                    }
                 }
                 return false;
             }
         }
+
+        /// <summary>
+        /// Property returns true if inside Maker
+        /// </summary>
+        public static bool InMaker => MakerInfo.InMaker;
+
+        /// <summary>
+        /// Property returns true if inside RoomMaker
+        /// </summary>
+        public static bool InRoomMaker => MakerInfo.InRoomMaker;
 #if KKS
+        /// <summary>
+        /// Property returns true if inside Room
+        /// </summary>
         public static bool InRoom
         {
             get
