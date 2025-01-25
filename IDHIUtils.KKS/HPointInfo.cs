@@ -274,6 +274,7 @@ namespace IDHIUtils
                 return;
             }
 
+            _specialHPointData.Clear();
             var lstInitCategory = hSceneProc.lstInitCategory;
             var map = hSceneProc.map;
             var nowHpointData = hSceneProc.nowHpointData;
@@ -335,7 +336,7 @@ namespace IDHIUtils
         {
             var hSceneProc = new HSceneProcTraverse(instance);
 
-            List<int> useCategorys = new List<int>();
+            var useCategorys = new List<int>();
 
             var categorys = hSceneProc.categorys;
             var lstInitCategory = hSceneProc.lstInitCategory;
@@ -350,7 +351,7 @@ namespace IDHIUtils
             useCategorys.Clear();
             useCategorys.AddRange(categorys);
 
-            StringBuilder stringBuilder = new StringBuilder("HPoint_");
+            var stringBuilder = new StringBuilder("HPoint_");
             if (categorys.Any((int c) => c >= 1010 && c < 1100)
                 || categorys.Any((int c) => c >= 1100 && c < 1200))
             {
@@ -361,7 +362,7 @@ namespace IDHIUtils
                 stringBuilder.Append("3P_");
             }
 
-            List<GameObject> list = GlobalMethod
+            var list = GlobalMethod
                 .LoadAllFolder<GameObject>("h/common/",
                     stringBuilder.ToString() + map.no.ToString());
             if (list == null || list.Count == 0)
@@ -369,21 +370,21 @@ namespace IDHIUtils
                 return;
             }
 
-            HPointData[] componentsInChildren = list[list.Count - 1]
+            var componentsInChildren = list[list.Count - 1]
                 .GetComponentsInChildren<HPointData>(includeInactive: true);
-            HPointOmitObject component = list[list.Count - 1]
+            var component = list[list.Count - 1]
                 .GetComponent<HPointOmitObject>();
 
-            bool flag = lstInitCategory.Any((int c) => c == 12 || c >= 1000);
-            bool flag2 = lstInitCategory.Any((int c) => c >= 3000 && c < 4000);
-            float num = flags.HpointSearch * flags.HpointSearch;
-            HPointData[] array = componentsInChildren;
+            var flag = lstInitCategory.Any((int c) => c == 12 || c >= 1000);
+            var flag2 = lstInitCategory.Any((int c) => c >= 3000 && c < 4000);
+            var num = flags.HpointSearch * flags.HpointSearch;
+            var array = componentsInChildren;
 
-            for (int i = 0; i < array.Length; i++)
+            for (var i = 0; i < array.Length; i++)
             {
                 array[i].BackUpPosition();
             }
-            foreach (HPointData hPointData in componentsInChildren)
+            foreach (var hPointData in componentsInChildren)
             {
                 if (component.list.Contains(hPointData.gameObject))
                 {
@@ -413,7 +414,7 @@ namespace IDHIUtils
                     {
                         continue;
                     }
-                    float sqrMagnitude =
+                    var sqrMagnitude =
                         (hPointData.transform.position - HpointJudgePos).sqrMagnitude;
                     if (!flags.HpointSearchLimit || !(sqrMagnitude > num))
                     {
@@ -431,7 +432,7 @@ namespace IDHIUtils
                     {
                         continue;
                     }
-                    float sqrMagnitude =
+                    var sqrMagnitude =
                         (hPointData.transform.position - HpointJudgePos).sqrMagnitude;
                     if (!flags.HpointSearchLimit || !(sqrMagnitude > num))
                     {
