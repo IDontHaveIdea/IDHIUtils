@@ -12,6 +12,7 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\lookuptexture.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)convenience\Utilities.Caller.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)convenience\Utilities.Json.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)convenience\Utilities.Map.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)convenience\Utilities.Move.cs" />
