@@ -4,7 +4,7 @@
   <Import Project="..\BuildSettings.Common.props" />
 
   <Import Project="..\IDHIUtils.Core\IDHIUtils.Core.projitems" Label="Shared" />
-  <Import Project="..\BuildSettings.Koikatu.props" />
+  <Import Project="..\BuildSettings.KoikatuLib.props" />
 
   <PropertyGroup>
     <!--<ProjectGuid>060b48f0-c862-40f6-b8d5-e0337fa7dc16</ProjectGuid>-->

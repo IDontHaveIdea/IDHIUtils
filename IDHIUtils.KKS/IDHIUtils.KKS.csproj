@@ -4,7 +4,7 @@
   <Import Project="..\BuildSettings.Common.props" />
 
   <Import Project="..\IDHIUtils.Core\IDHIUtils.Core.projitems" Label="Shared" />
-  <Import Project="..\BuildSettings.KoikatsuSunshine.props" />
+  <Import Project="..\BuildSettings.KoikatsuSunshineLib.props" />
 
   <PropertyGroup>
     <!--<ProjectGuid>495b2e98-fa8c-4126-9783-32f3c25b3c27</ProjectGuid>-->
