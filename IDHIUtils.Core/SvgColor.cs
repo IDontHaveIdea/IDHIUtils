@@ -14,7 +14,7 @@ namespace IDHIUtils
     /// <summary>
     /// Scalable Vector Graphics Color Names
     /// 
-    /// https://www.december.com/html/spec/Colorsvg.html
+    /// https://johndecember.com/html/spec/colorsvg.html
     /// </summary>
     public class SvgColor
     {
