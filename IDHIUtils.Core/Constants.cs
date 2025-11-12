@@ -2,6 +2,7 @@
 // Constants many enums from the game for reference
 //
 // Ignore Spelling: Utils Siru
+// In New
 
 
 namespace IDHIUtils
